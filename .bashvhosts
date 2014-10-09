@@ -1,0 +1,43 @@
+#!/usr/local/bin/bash
+# ######## #
+# Vhosting #
+# ######## #
+
+newProject() {
+  DEFAULT_PORT="80"
+
+  echo "Repo"
+  read GIT
+  echo "Project root dir (relative to $PWD)"
+  read ROOTDIR
+  echo "Public root dir (relative to $PWD/$ROOTDIR)"
+  read PUBLICDIR
+
+
+  VHOST_PTN="
+<VirtualHost *:80>
+    ServerName $ROOTDIR.app
+    DocumentRoot \"$PWD/$ROOTDIR/$PUBLICDIR\"
+    <Directory \"$PWD/$ROOTDIR/$PUBLICDIR\">
+        Options FollowSymLinks Multiviews
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+"
+
+  HOSTS_PTN="127.0.0.1       $ROOTDIR.app"
+
+
+  cd ~/localserver
+  git clone $GIT $ROOTDIR
+
+  echo "$VHOST_PTN" >> /private/etc/apache2/extra/httpd-vhosts.conf
+  echo "$HOSTS_PTN" >> /etc/hosts
+
+  echo "Restarting apache..."
+  sudo apachectl restart
+
+  open "http://$ROOTDIR.app/"
+  subl "$PWD/$ROOTDIR"
+}

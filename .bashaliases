@@ -1,0 +1,43 @@
+#!/usr/local/bin/bash
+# ######## #
+# Aliasing #
+# ######## #
+
+# node webkit
+alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
+
+# misc aliases
+alias dot="subl ~/.bash_profile"
+alias lls="ls -Ael"
+alias shoot="webkit2png -F -W 1280 -D ~/Desktop"
+alias flush="sudo killall -HUP mDNSResponder"
+alias ungz="tar -zxvf"
+alias dogz="tar -cvf"
+
+# git aliases
+alias ga="git add --all"
+alias gb="git blame"
+alias gc="git commit -m"
+alias gd="git diff"
+alias gf="git fetch --all"
+alias gs="git status --short"
+alias gup="git push"
+alias gpu="git push -u origin --all"
+alias gdn="git pull"
+alias devup="git push dev-server develop:master"
+alias push="gup && devup"
+
+# server aliases
+alias restart="sudo apachectl restart"
+alias hosts="sudo subl /etc/hosts"
+alias servers="cat /private/etc/apache2/extra/httpd-vhosts.conf | grep ServerName -A 1"
+alias vhost="sudo subl /private/etc/apache2/extra/httpd-vhosts.conf"
+alias logs="subl /private/var/log/apache2/"
+
+# vagrant aliases
+alias vstat="vagrant status"
+alias vssh="vagrant ssh"
+alias vup="vagrant up"
+alias vdn="vagrant halt"
+alias vsus="vagrant suspend"
+alias vbye="vagrant destroy"

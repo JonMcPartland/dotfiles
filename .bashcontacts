@@ -1,0 +1,22 @@
+#!/usr/local/bin/bash
+# ################ #
+# Message Aliasing #
+# ################ #
+# add/rm contacts (prefixed aliases)
+contact() {
+    if [[ $1 == add ]]; then
+        echo "CONTACT[$2]=\"$3\"" >> ~/.bash_contacts
+    elif [[ $1 == rm ]]; then
+        grep -v 'CONTACT\['$2'\]="' ~/.bash_contacts > ~/.temp_contacts; mv ~/.temp_contacts ~/.bash_contacts
+        echo "Contact removed."
+    else
+        echo "Incorrect arguments."
+        echo "To add a contact, do: contact add \"Name\" \"+001234567890\"."
+        echo "To remove a contact, do: contact rm \"Name\" (case sensitive)."
+    fi
+}
+
+declare -A CONTACT
+CONTACT[jon]="+447525417522"
+CONTACT[paul]="+447809431817"
+CONTACT[liam]="+447803318107"
