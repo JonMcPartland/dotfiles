@@ -1,11 +1,11 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 # ######## #
 # Vhosting #
 # ######## #
-
 newProject() {
   DEFAULT_PORT="80"
 
+  # grab data
   echo "Repo"
   read GIT
   echo "Project root dir (relative to $PWD)"
@@ -13,7 +13,7 @@ newProject() {
   echo "Public root dir (relative to $PWD/$ROOTDIR)"
   read PUBLICDIR
 
-
+  # config vhost
   VHOST_PTN="
 <VirtualHost *:80>
     ServerName $ROOTDIR.app
@@ -26,18 +26,23 @@ newProject() {
 </VirtualHost>
 "
 
+  # config hosts entry
   HOSTS_PTN="127.0.0.1       $ROOTDIR.app"
 
 
+  # clone repo
   cd ~/localserver
   git clone $GIT $ROOTDIR
 
+  # add vhost and hosts entries
   echo "$VHOST_PTN" >> /private/etc/apache2/extra/httpd-vhosts.conf
   echo "$HOSTS_PTN" >> /etc/hosts
 
+  # restart apache
   echo "Restarting apache..."
   sudo apachectl restart
 
+  # open in browser and sublime
   open "http://$ROOTDIR.app/"
   subl "$PWD/$ROOTDIR"
 }

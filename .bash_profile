@@ -1,8 +1,9 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 # ####### #
 # PATHing #
 # ####### #
 
+# Prepend timestamp to `history`
 HISTTIMEFORMAT="%H:%M:%S "
 
 # PATH

@@ -5,12 +5,12 @@
 
 # gets git info
 isInGit() {
-    local gitrepo=$(git rev-parse --is-inside-work-tree 2> /dev/null)
-    if [[ gitrepo != "" ]]; then
-        local branch=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
-        local status=$(git status --porcelain 2> /dev/null | tail -n1)
-    fi
-    echo "$gitrepo"
-    echo "$branch"
-    echo "$status"
+  local gitrepo=$(git rev-parse --is-inside-work-tree 2> /dev/null)
+  if [[ gitrepo != "" ]]; then
+    local branch=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
+    local status=$(git status --porcelain 2> /dev/null | tail -n1)
+  fi
+  echo "$gitrepo"
+  echo "$branch"
+  echo "$status"
 }

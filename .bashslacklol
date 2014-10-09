@@ -5,32 +5,32 @@
 
 # return latest file in dir
 newestFile() {
-    unset -v latest
-    for file in "$1"/*; do
-      [[ $file -nt $latest ]] && latest=$file
-    done
-    echo "$latest"
+  unset -v latest
+  for file in "$1"/*; do
+    [[ $file -nt $latest ]] && latest=$file
+  done
+  echo "$latest"
 }
 
 # grab current directory, and its assoc. loldir;
 # post to slack channel via curl, and output
 # response from slack api.
 sendToSlack() {
-    local currentdir=${PWD##*/}
-    local loldir="$HOME/.lolcommits/$currentdir"
-    local filepath=`newestFile $loldir`
-    local token="xoxp-2219698689-2219703261-2395208100-dec191"
-    local channel="C02BM630S"
-    local apiurl="https://slack.com/api/files.upload"
+  local currentdir=${PWD##*/}
+  local loldir="$HOME/.lolcommits/$currentdir"
+  local filepath=`newestFile $loldir`
+  local token="xoxp-2219698689-2219703261-2395208100-dec191"
+  local channel="C02BM630S"
+  local apiurl="https://slack.com/api/files.upload"
 
-    local curlish="-s -F file=@$filepath -F channels=$channel -F token=$token $apiurl"
-    local response=$(curl $curlish | php -r 'echo json_decode(fgets(STDIN))->ok;')
+  local curlish="-s -F file=@$filepath -F channels=$channel -F token=$token $apiurl"
+  local response=$(curl $curlish | php -r 'echo json_decode(fgets(STDIN))->ok;')
 
-    if [[ $response ]]; then
-        echo "success"
-    else
-        echo "FAIL"
-    fi
+  if [[ $response ]]; then
+    echo "success"
+  else
+    echo "FAIL"
+  fi
 }
 
 sendToSlack
