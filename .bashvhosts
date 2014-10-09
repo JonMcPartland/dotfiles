@@ -12,11 +12,13 @@ newProject() {
   read ROOTDIR
   echo "Public root dir (relative to $PWD/$ROOTDIR)"
   read PUBLICDIR
+  echo "TLD (e.g. [app|dev])"
+  read TLD
 
   # config vhost
   VHOST_PTN="
 <VirtualHost *:80>
-    ServerName $ROOTDIR.app
+    ServerName $ROOTDIR.$TLD
     DocumentRoot \"$PWD/$ROOTDIR/$PUBLICDIR\"
     <Directory \"$PWD/$ROOTDIR/$PUBLICDIR\">
         Options FollowSymLinks Multiviews
@@ -27,7 +29,7 @@ newProject() {
 "
 
   # config hosts entry
-  HOSTS_PTN="127.0.0.1       $ROOTDIR.app"
+  HOSTS_PTN="127.0.0.1       $ROOTDIR.$TLD"
 
 
   # clone repo
@@ -43,6 +45,6 @@ newProject() {
   sudo apachectl restart
 
   # open in browser and sublime
-  open "http://$ROOTDIR.app/"
+  open "http://$ROOTDIR.$TLD/"
   subl "$PWD/$ROOTDIR"
 }
