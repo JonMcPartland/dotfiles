@@ -10,7 +10,7 @@ HISTTIMEFORMAT="%H:%M:%S "
 PATH="/Users/Jon/.rvm/gems/ruby-2.1.3/bin:/Users/Jon/.rvm/gems/ruby-2.1.3@global/bin:/Users/Jon/.rvm/rubies/ruby-2.1.3/bin:/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/Jon/.rvm/bin:${PATH}"
 
 if [ -n "$PATH" ]; then
-  old_PATH=$PATH; PATH=
+  old_PATH=$PATH:; PATH=
   while [ -n "$old_PATH" ]; do
     x=${old_PATH%%:*}
     case $PATH: in
