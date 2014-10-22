@@ -17,7 +17,7 @@ newProject() {
 
   # config vhost
   VHOST_PTN="
-<VirtualHost *:80>
+<VirtualHost $ROOTDIR.$TLD:80>
     ServerName $ROOTDIR.$TLD
     DocumentRoot \"$PWD/$ROOTDIR/$PUBLICDIR\"
     <Directory \"$PWD/$ROOTDIR/$PUBLICDIR\">
@@ -37,7 +37,7 @@ newProject() {
   git clone $GIT $ROOTDIR
 
   # add vhost and hosts entries
-  echo "$VHOST_PTN" >> /private/etc/apache2/extra/httpd-vhosts.conf
+  echo "$VHOST_PTN" >> /usr/local/etc/apache2/extra/httpd-vhosts.conf
   echo "$HOSTS_PTN" >> /etc/hosts
 
   # restart apache
