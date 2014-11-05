@@ -31,60 +31,41 @@ awesomeify() {
   # ######### #
   # init vars #
   # ######### #
-  # qty of items in current dir
-  local files=$(ls -l | grep -v ^l | wc -l)
-  # system uptime
-  local uptime=$(uptime | awk '{print $3}' | sed 's/,//g')
-  # system time
-  local timestamp=$(date +"%H:%M")
-  local theday=$(date +"%a %e`daySuffix`")
-  local themonth=$(date +"%b")
-  local theyear=$(date +"%Y")
+  local TIMESTAMP=$(date +"%H:%M")
+  local THEUSER=" \u: "
+  local PROMPT="» "
 
   # grab git status
   read isGit isBranch isStatus <<< $(isInGit 2> /dev/null)
   # if is git repo
   if [[ $isGit ]]; then
     # set branch name and cute apple
-    BRANCH="$isBranch"
-    STATUS="  "
+    BRANCH=" $isBranch"
     # if clean repo
     if [[ $isStatus == "" ]]; then
-      # green apple
+      # green status
       CLR=$GREEN
     # if dirty repo
     else
-      # red apple
+      # red status
       CLR=$RED
     fi
   # if not git repo
   else
     # make branch and status empty
     BRANCH=""
-    STATUS=""
   fi
-
-  # strip whitespace from wc output,
-  # and append context string
-  local DIRITEMS="${files//[[:space:]]/} items in ${PWD##*/}"
-
-  local UPTIME="Up for ${uptime}hrs"
-  local DATETIME="${timestamp}hrs on $theday $themonth $theyear"
-
-  local THEUSER="\u: "
-  local PROMPT=" » "
 
 
 # BASH prompt customisation
 PS1="\
-\[$MAGENTA\]$THEUSER\
-\[$DIM$WHITE\]$BRANCH\
-\[$RESET$CLR\]$STATUS\
-\[$BLUE\]$DIRITEMS\
-$BREAK\
 \[$BOLD$WHITE\][\
-\[$BLACK\]$timestamp\
+\[$BLACK\]$TIMESTAMP\
 \[$WHITE\]]\
+\[$RESET$MAGENTA\]$THEUSER\
+\[$BLUE\]${PWD##*/}\
+\[$DIM$CLR\]$BRANCH\
+$BREAK\
 \[$RESET$YELLOW\]$PROMPT\
 \[$RESET\]\
 "

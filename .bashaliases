@@ -10,7 +10,7 @@ alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
 alias dot="subl ~/.bash_profile"
 alias lls="ls -Ael"
 alias shoot="webkit2png -F -W 1280 -D ~/Desktop"
-alias flush="sudo killall -HUP mDNSResponder"
+alias flush="sudo discoveryutil udnsflushcaches"
 alias ungz="tar -zxvf"
 alias dogz="tar -cvf"
 

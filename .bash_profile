@@ -7,7 +7,11 @@
 HISTTIMEFORMAT="%H:%M:%S "
 
 # PATH
-PATH="/Users/Jon/.rvm/gems/ruby-2.1.3/bin:/Users/Jon/.rvm/gems/ruby-2.1.3@global/bin:/Users/Jon/.rvm/rubies/ruby-2.1.3/bin:/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/Jon/.rvm/bin:${PATH}"
+PATH="/usr/local/mysql/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Users/Jon/.rvm/bin:${PATH}"
+
+# rbenv
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 if [ -n "$PATH" ]; then
   old_PATH=$PATH:; PATH=
@@ -22,9 +26,6 @@ if [ -n "$PATH" ]; then
   PATH=${PATH#:}
   unset old_PATH x
 fi
-
-# Load RVM into a shell session *as a function*
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # load BASH autocomplete from homebrew
 if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
