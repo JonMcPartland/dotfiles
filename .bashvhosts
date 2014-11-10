@@ -14,6 +14,8 @@ newProject() {
   read PUBLICDIR
   echo "TLD (e.g. [app|dev])"
   read TLD
+  echo "DB name"
+  read DBNAME
 
   # config vhost
   VHOST_PTN="
@@ -43,6 +45,10 @@ newProject() {
   # restart apache
   echo "Restarting apache..."
   sudo apachectl restart
+
+  # create database
+  echo "Creating database"
+  mysql -uroot -p -e "create database $DBNAME;"
 
   # open in browser and sublime
   open "http://$ROOTDIR.$TLD/"
