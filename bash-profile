@@ -8,5 +8,5 @@ for file in ~/.bashfiles/bin/bash-*; do
   if [[ -r $file && -f $file ]]; then
     . $file
   fi
-done;
+done
 unset file
