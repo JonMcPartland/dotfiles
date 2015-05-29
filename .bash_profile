@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Prepend timestamp to `history`
-HISTTIMEFORMAT="%H:%M:%S "
+HISTTIMEFORMAT="%d/%m/%y %T "
 
 # sources
 for file in ~/.bashfiles/.{path,locations,aliases,functions,gitinfo,notify,options,vhosts,bashrc}; do
