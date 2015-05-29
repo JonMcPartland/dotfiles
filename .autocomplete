@@ -7,7 +7,5 @@ if [[ -f $(brew --prefix)/Library/Contributions/brew_bash_completion.sh ]]; then
 fi
 
 if [[ -e $HOME/.ssh/config ]]; then
-  local hosts=$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')
-
-  complete -o "default" -o "nospace" -W $hosts scp sftp ssh
+  complete -o "default" -o "nospace" -W $(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n') scp sftp ssh
 fi
