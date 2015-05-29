@@ -1,7 +1,4 @@
 #!/usr/local/bin/bash
-# ####### #
-# Gitting #
-# ####### #
 
 # gets git info
 isInGit() {

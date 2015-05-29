@@ -1,7 +1,4 @@
 #!/usr/local/bin/bash
-# ######### #
-# Notifying #
-# ######### #
 
 # notification "Title" "Line one" "Line two"
 notification() {

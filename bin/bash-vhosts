@@ -1,7 +1,5 @@
-#!/bin/bash
-# ######## #
-# Vhosting #
-# ######## #
+#!/usr/local/bin/bash
+
 newProject() {
   DEFAULT_PORT="80"
 

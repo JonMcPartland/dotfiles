@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 # Prepend timestamp to `history`
 HISTTIMEFORMAT="%d/%m/%y %T "
 
 # sources
-for file in ~/.bashfiles/.{path,locations,autocomplete,aliases,functions,gitinfo,notify,options,vhosts,bashrc}; do
+for file in ~/.bashfiles/bin/bash-*; do
   if [[ -r $file && -f $file ]]; then
     . $file
   fi

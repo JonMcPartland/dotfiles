@@ -1,3 +1,5 @@
+#!/usr/local/bin/bash
+
 # Go up n dirs
 up() {
   str=""
