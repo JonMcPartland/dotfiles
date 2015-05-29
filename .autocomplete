@@ -1,9 +1,13 @@
-if [ -f $(brew --prefix)/share/bash-completion/bash_completion ]; then
+if [[ -f $(brew --prefix)/share/bash-completion/bash_completion ]]; then
   . $(brew --prefix)/share/bash-completion/bash_completion
 fi
 
-if [ -f $(brew --prefix)/Library/Contributions/brew_bash_completion.sh ]; then
-. $(brew --prefix)/Library/Contributions/brew_bash_completion.sh
+if [[ -f $(brew --prefix)/Library/Contributions/brew_bash_completion.sh ]]; then
+  . $(brew --prefix)/Library/Contributions/brew_bash_completion.sh
 fi
 
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
+if [[ -e $HOME/.ssh/config ]]; then
+  local hosts=$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')
+
+  complete -o "default" -o "nospace" -W $hosts scp sftp ssh
+fi

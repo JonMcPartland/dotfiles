@@ -39,8 +39,8 @@ newProject() {
   git clone $GIT $ROOTDIR
 
   # add vhost and hosts entries
-  echo "$VHOST_PTN" >> /usr/local/etc/apache2/extra/httpd-vhosts.conf
-  echo "$HOSTS_PTN" >> /etc/hosts
+  echo $VHOST_PTN >> /usr/local/etc/apache2/extra/httpd-vhosts.conf
+  echo $HOSTS_PTN >> /etc/hosts
 
   # restart apache
   echo "Restarting apache..."

@@ -4,7 +4,9 @@
 HISTTIMEFORMAT="%H:%M:%S "
 
 # sources
-for file in ~/.bashfiles/.{path,locations,aliases,gitinfo,notify,options,vhosts,bashrc}; do
-  [ -r "$file" ] && [ -f "$file" ] && . "$file"
+for file in ~/.bashfiles/.{path,locations,aliases,functions,gitinfo,notify,options,vhosts,bashrc}; do
+  if [[ -r $file && -f $file ]]; then
+    . $file
+  fi
 done;
 unset file

@@ -1,6 +1,6 @@
 export PHANTOMJS_BIN=/usr/local/bin/phantomjs
 
 export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv > /dev/null; then
-  eval "$(rbenv init -)";
+if [[ $(which rbenv) > /dev/null ]]; then
+  eval "$(rbenv init -)"
 fi
