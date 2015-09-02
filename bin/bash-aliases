@@ -1,7 +1,4 @@
 #!/usr/local/bin/bash
-# ######## #
-# Aliasing #
-# ######## #
 
 # node webkit
 alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
@@ -9,11 +6,13 @@ alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
 # misc aliases
 alias dot="subl ~/.bashfiles"
 alias dodot=". ~/.bash_profile"
-alias lls="ls -Ael"
+alias lls="ls -AeGl"
 alias shoot="webkit2png -F -W 1280 -D ~/Desktop"
 alias flush="sudo discoveryutil udnsflushcaches"
 alias ungz="tar -zxvf"
 alias dogz="tar -cvf"
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias colour="pygmentize -O style=monokai -f console256 -g" #(pipe it)
 
 # git aliases
 alias ga="git add --all"
@@ -21,7 +20,7 @@ alias gb="git blame"
 alias gc="git commit -m"
 alias gd="git diff"
 alias gf="git fetch --all"
-alias gl='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%<(14,trunc)%cr%Creset - %C(blue)%<(14,trunc)%an%Creset - %C(white)%s"'
+alias gl='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%<(14,trunc)%cr%Creset - %C(dim blue)%<(14,trunc)%an%Creset - %C(white)%s"'
 alias gs="git status --short"
 alias gup="git push"
 alias gpu="git push -u origin --all"

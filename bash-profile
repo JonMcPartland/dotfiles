@@ -1,0 +1,12 @@
+#!/usr/local/bin/bash
+
+# Prepend timestamp to `history`
+HISTTIMEFORMAT="%d/%m/%y %T "
+
+# sources
+for file in ~/.bashfiles/bin/bash-*; do
+  if [[ -r $file && -f $file ]]; then
+    . $file
+  fi
+done
+unset file

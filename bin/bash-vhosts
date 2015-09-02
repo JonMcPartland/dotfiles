@@ -1,7 +1,5 @@
-#!/bin/bash
-# ######## #
-# Vhosting #
-# ######## #
+#!/usr/local/bin/bash
+
 newProject() {
   # grab data
   echo "Repo"
@@ -48,5 +46,4 @@ newProject() {
 
   # open in browser and sublime
   open "http://$ROOTDIR.dev/"
-  subl "$PWD/$ROOTDIR"
 }

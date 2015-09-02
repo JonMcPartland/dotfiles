@@ -1,0 +1,21 @@
+#!/usr/local/bin/bash
+
+# Go up n dirs
+up() {
+  str=""
+  count=0
+  while [[ $count -lt $1 ]]; do
+    str=$str"../"
+    let count=count+1
+  done
+  cd $str
+}
+
+# toggle hidden file visibility
+hidden() {
+  if [[ $(defaults read com.apple.finder AppleShowAllFiles) == YES ]]; then
+    defaults write com.apple.finder AppleShowAllFiles NO
+  else
+    defaults write com.apple.finder AppleShowAllFiles YES
+  fi
+}
