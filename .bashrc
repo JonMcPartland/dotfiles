@@ -33,13 +33,14 @@ awesomeify() {
   # ######### #
   local TIMESTAMP=$(date +"%H:%M")
   local THEUSER=" \u: "
+  local PWDIR=" ${PWD##*/}"
   local PROMPT="» "
 
   # grab git status
   read isGit isBranch isStatus <<< $(isInGit 2> /dev/null)
   # if is git repo
   if [[ $isGit ]]; then
-    # set branch name and cute apple
+    # set branch name
     BRANCH=" $isBranch"
     # if clean repo
     if [[ $isStatus == "" ]]; then
@@ -62,8 +63,7 @@ PS1="\
 \[$BOLD$WHITE\][\
 \[$BLACK\]$TIMESTAMP\
 \[$WHITE\]]\
-\[$RESET$MAGENTA\]$THEUSER\
-\[$BLUE\]${PWD##*/}\
+\[$RESET$BLUE\]$PWDIR\
 \[$DIM$CLR\]$BRANCH\
 $BREAK\
 \[$RESET$YELLOW\]$PROMPT\

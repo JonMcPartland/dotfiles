@@ -3,4 +3,3 @@ Clone into ~/.bashfiles/:
   
 Symlink .bash_profile and .bashrc:  
 `ln -s ~/.bashfiles/.bash_profile ~/.bash_profile`  
-`ln -s ~/.bashfiles/.bashrc ~/.bashrc`

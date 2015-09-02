@@ -7,7 +7,7 @@
 HISTTIMEFORMAT="%H:%M:%S "
 
 # PATH
-PATH="/usr/local/bin:/usr/local/git/bin:/usr/local/mysql/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:${PATH}"
+PATH="/usr/local/bin:/usr/local/git/bin:/usr/local/mysql/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/X11/bin:${PATH}"
 
 # rbenv
 export RBENV_ROOT=/usr/local/var/rbenv
@@ -35,10 +35,9 @@ fi
 # ####### #
 # Saucing #
 # ####### #
-. ~/.bashfiles/.bashaliases     # alias file
-. ~/.bashfiles/.bashnotify      # growl/osa notifications
-. ~/.bashfiles/.bashcontacts    # address book
-. ~/.bashfiles/.bashmessage     # imessage
-. ~/.bashfiles/.bashgit         # git info
-. ~/.bashfiles/.bashvhosts      # apache hosts
-. ~/.bashrc                     # ps1/prompt
+. ~/.bashfiles/.aliases # alias file
+. ~/.bashfiles/.dotvis  # toggle Finder dotfile visibility
+. ~/.bashfiles/.ingit   # git info
+. ~/.bashfiles/.notify  # growl/osa notifications
+. ~/.bashfiles/.vhosts  # apache hosts
+. ~/.bashrc             # ps1/prompt

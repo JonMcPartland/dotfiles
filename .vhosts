@@ -3,8 +3,6 @@
 # Vhosting #
 # ######## #
 newProject() {
-  DEFAULT_PORT="80"
-
   # grab data
   echo "Repo"
   read GIT
@@ -12,15 +10,12 @@ newProject() {
   read ROOTDIR
   echo "Public root dir (relative to $PWD/$ROOTDIR)"
   read PUBLICDIR
-  echo "TLD (e.g. [app|dev])"
-  read TLD
-  echo "DB name"
-  read DBNAME
+
 
   # config vhost
   VHOST_PTN="
-<VirtualHost $ROOTDIR.$TLD:80>
-    ServerName $ROOTDIR.$TLD
+<VirtualHost $ROOTDIR.dev:80>
+    ServerName $ROOTDIR.dev
     DocumentRoot \"$PWD/$ROOTDIR/$PUBLICDIR\"
     <Directory \"$PWD/$ROOTDIR/$PUBLICDIR\">
         Options FollowSymLinks Multiviews
@@ -31,16 +26,17 @@ newProject() {
 "
 
   # config hosts entry
-  HOSTS_PTN="127.0.0.1       $ROOTDIR.$TLD"
+  HOSTS_PTN="127.0.0.1       $ROOTDIR.dev"
 
 
   # clone repo
   cd ~/localserver
   git clone $GIT $ROOTDIR
+  cd ~/$ROOTDIR
 
   # add vhost and hosts entries
-  echo "$VHOST_PTN" >> /usr/local/etc/apache2/extra/httpd-vhosts.conf
-  echo "$HOSTS_PTN" >> /etc/hosts
+  echo $VHOST_PTN >> /usr/local/etc/apache2/extra/httpd-vhosts.conf
+  echo $HOSTS_PTN >> /etc/hosts
 
   # restart apache
   echo "Restarting apache..."
@@ -48,9 +44,9 @@ newProject() {
 
   # create database
   echo "Creating database"
-  mysql -uroot -p -e "create database $DBNAME;"
+  mysql -uroot -p -e "create database $ROOTDIR;"
 
   # open in browser and sublime
-  open "http://$ROOTDIR.$TLD/"
+  open "http://$ROOTDIR.dev/"
   subl "$PWD/$ROOTDIR"
 }

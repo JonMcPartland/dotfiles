@@ -1,0 +1,13 @@
+#!/usr/local/bin/bash
+# ######### #
+# Notifying #
+# ######### #
+
+# notification "Title" "Line one" "Line two"
+notification() {
+  if type "growlnotify" > /dev/null; then
+    growlnotify -t "$1" -m "$2"$'\n'"$3" --image "/Applications/iTerm.app/Contents/Resources/iTerm.icns"
+  else
+    echo 'display notification "'$2'\n'$3'" with title "'$1'"' | osascript -e;
+  fi
+}
