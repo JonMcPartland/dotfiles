@@ -20,7 +20,7 @@ alias gb="git blame"
 alias gc="git commit -m"
 alias gd="git diff"
 alias gf="git fetch --all"
-alias gl='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%<(14,trunc)%cr%Creset - %C(dim blue)%<(14,trunc)%an%Creset - %C(white)%s"'
+alias gl='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%<(14,trunc)%cr%Creset - %C(blue)%<(14,trunc)%an%Creset - %C(white)%s"'
 alias gs="git status --short"
 alias gup="git push"
 alias gpu="git push -u origin --all"
