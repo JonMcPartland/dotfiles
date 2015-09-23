@@ -4,3 +4,5 @@ export PHANTOMJS_BIN=/usr/local/bin/phantomjs
 
 export RBENV_ROOT=/usr/local/var/rbenv
 eval "$(rbenv init -)"
+
+eval "$(thefuck --alias)"

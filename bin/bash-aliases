@@ -4,6 +4,7 @@
 alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
 
 # misc aliases
+alias nom="npm"
 alias dot="subl ~/.bashfiles"
 alias dodot=". ~/.bash_profile"
 alias lls="ls -AeGl"
