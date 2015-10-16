@@ -10,12 +10,12 @@
 
 
 ## Installation
-Clone into `~/<foldername>/`:  
+Clone into `~/.dotfiles/`:  
 ```bash
-cd ~ && git clone https://github.com/JonMcPartland/dotfiles.git <foldername>
+cd ~ && git clone https://github.com/JonMcPartland/dotfiles.git .dotfiles
 ```
 
 Symlink to `.bash_profile`:  
 ```bash
-ln -s ~/<foldername>/bash-profile ~/.bash_profile
+ln -s ~/.dotfiles/bash-profile ~/.bash_profile
 ```
