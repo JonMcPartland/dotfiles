@@ -10,3 +10,6 @@ for file in ~/.bashfiles/bin/bash-*; do
   fi
 done
 unset file
+
+eval "$(rbenv init -)"
+eval "$(thefuck --alias)"
