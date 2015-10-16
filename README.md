@@ -5,6 +5,8 @@
 - Homebrew  
 - Bash v4  
 - iTerm (xterm-256)  
+- rbenv  
+- [thefuck](https://github.com/nvbn/thefuck)  
   
 Clone into `~/<foldername>/`:  
 ```
