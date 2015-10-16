@@ -4,7 +4,7 @@
 HISTTIMEFORMAT="%d/%m/%y %T "
 
 # sources
-for file in ~/.bashfiles/bin/bash-*; do
+for file in ~/.dotfiles/bin/bash-*; do
   if [[ -r $file && -f $file ]]; then
     . $file
   fi
