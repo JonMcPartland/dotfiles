@@ -4,12 +4,20 @@
 HISTTIMEFORMAT="%d/%m/%y %T "
 
 # sources
-for file in ~/.dotfiles/bin/bash-*; do
-  if [[ -r $file && -f $file ]]; then
-    . $file
+FILEDIR=$(cd "$(dirname "$0")" && pwd)/$(basename -- "$0")
+while [ -h $FILEDIR ]; do
+  DIR=$(dirname -- "$FILEDIR")
+  SYM=$(readlink $FILEDIR)
+  FILEDIR=$(cd $DIR && cd $(dirname -- "$SYM") && pwd)
+done
+
+for FILE in $FILEDIR/bin/bash-*; do
+  if [[ -r $FILE && -f $FILE ]]; then
+    . $FILE
   fi
 done
-unset file
+unset FILE
+unset FILEDIR
 
 eval "$(rbenv init -)"
 eval "$(thefuck --alias)"
