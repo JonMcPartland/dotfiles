@@ -6,8 +6,12 @@
 - Bash v4  
 - iTerm (xterm-256)  
   
-Clone into ~/<foldername>/:  
-`cd ~ && git clone git@bitbucket.org:jmcpartland/dotfiles.git <foldername>`  
+Clone into `~/<foldername>/`:  
+```
+cd ~ && git clone https://github.com/JonMcPartland/dotfiles.git <foldername>
+```
   
-Symlink to .bash_profile:  
-`ln -s ~/<foldername>/bash-profile ~/.bash_profile`
+Symlink to `.bash_profile`:  
+```
+ln -s ~/<foldername>/bash-profile ~/.bash_profile
+```
