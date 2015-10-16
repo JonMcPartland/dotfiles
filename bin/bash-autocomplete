@@ -1,13 +1,16 @@
 #!/usr/local/bin/bash
 
+# Standard Bash Autocompletion
 if [[ -f $(brew --prefix)/share/bash-completion/bash_completion ]]; then
   . $(brew --prefix)/share/bash-completion/bash_completion
 fi
 
+# Homebrew Bash Autocompletion
 if [[ -f $(brew --prefix)/Library/Contributions/brew_bash_completion.sh ]]; then
   . $(brew --prefix)/Library/Contributions/brew_bash_completion.sh
 fi
 
+# SSH Autocompletion
 if [[ -e $HOME/.ssh/config ]]; then
   complete -o "default" -o "nospace" -W $(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n') scp sftp ssh
 fi

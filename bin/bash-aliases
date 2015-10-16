@@ -13,7 +13,7 @@ alias flush="sudo discoveryutil udnsflushcaches"
 alias ungz="tar -zxvf"
 alias dogz="tar -cvf"
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-alias colour="pygmentize -O style=monokai -f console256 -g" #(pipe it)
+alias colour="pygmentize -O style=monokai -f console256 -g" # (pipe it)
 
 # git aliases
 alias ga="git add --all"

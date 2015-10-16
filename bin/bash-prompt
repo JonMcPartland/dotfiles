@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-awesomeify() {
+prettify() {
   PS1=""
 
   # set scheme vars
@@ -62,4 +62,4 @@ awesomeify() {
 }
 
 # make BASH awesome
-PROMPT_COMMAND=awesomeify
+PROMPT_COMMAND=prettify
