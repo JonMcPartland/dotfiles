@@ -42,3 +42,8 @@ notification() {
     echo 'display notification "'$2'\n'$3'" with title "'$1'"' | osascript -e;
   fi
 }
+
+# generate random string of n length
+randString() {
+  cat /dev/random | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+}

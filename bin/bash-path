@@ -7,6 +7,7 @@ export PYTHONPATH=/usr/local/bin/python
 PATH="\
 $HOME/.rbenv/bin:\
 $HOME/.rbenv/shims:\
+$HOME/.composer/vendor/bin:\
 /usr/local/bin:\
 /usr/local/git/bin:\
 /usr/local/mysql/bin:\
