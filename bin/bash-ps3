@@ -1,0 +1,3 @@
+#!/usr/local/bin/bash
+
+export PS3="\[$(tput sgr0)$(tput setaf 2)\]# \[$(tput sgr0)$(tput setaf 3)\]» \[$(tput sgr0)\]"

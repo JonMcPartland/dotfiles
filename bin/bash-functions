@@ -24,7 +24,7 @@ hidden() {
 isInGit() {
   local gitrepo=$(git rev-parse --is-inside-work-tree 2> /dev/null)
 
-  if [[ $gitrepo != "" ]]; then
+  if $gitrepo != ""; then
     local branch=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
     local status=$(git status --porcelain 2> /dev/null | tail -n1)
   fi
@@ -36,10 +36,10 @@ isInGit() {
 
 # notification "Title" "Line one" "Line two"
 notification() {
-  if [[ $(growlnotify) > /dev/null ]]; then
+  if hash growlnotify 2> /dev/null; then
     growlnotify -t "$1" -m "$2"$'\n'"$3" --image "/Applications/iTerm.app/Contents/Resources/iTerm.icns"
   else
-    echo 'display notification "'$2'\n'$3'" with title "'$1'"' | osascript -e;
+    osascript -e 'display notification "'$2'\n'$3'" with title "'$1'"';
   fi
 }
 

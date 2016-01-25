@@ -1,0 +1,3 @@
+#!/usr/local/bin/bash
+
+export PS2="\[$(tput sgr0)$(tput setaf 3)\]» \[$(tput sgr0)\]"

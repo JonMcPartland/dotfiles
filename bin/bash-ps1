@@ -1,8 +1,6 @@
 #!/usr/local/bin/bash
 
 prettify() {
-  PS1=""
-
   # set scheme vars
   local BLACK=$(tput setaf 0)
   local RED=$(tput setaf 1)
@@ -17,12 +15,12 @@ prettify() {
   local RESET=$(tput sgr0)
   local BREAK="\n"
 
+  PS1=""
 
   # timestamp
   PS1+="\[$BOLD$WHITE\][\[$BLACK\]$(date +"%H:%M")\[$BOLD$WHITE\]]"
   # user name
   PS1+="\[$RESET$MAGENTA\] \u "
-
 
   # pwd prefix
   PS1+="\[$RESET$WHITE\]in \[$BLUE\]"
@@ -35,7 +33,6 @@ prettify() {
   else
     PS1+="${PWD##*/}"
   fi
-
 
   # grab git info
   read ISGIT BRANCH STATUS <<< $(isInGit 2> /dev/null)
@@ -56,10 +53,8 @@ prettify() {
     PS1+="\[$RESET$WHITE\] on \[$DIM$CLR\]$BRANCH"
   fi
 
-
   # the prompt itself
   PS1+="$BREAK\[$RESET$YELLOW\]» \[$RESET\]"
 }
 
-# make BASH awesome
 PROMPT_COMMAND=prettify

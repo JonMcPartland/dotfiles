@@ -3,6 +3,9 @@
 # node webkit
 alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
 
+# browser-sync
+alias sync="browser-sync start --proxy "
+
 # misc aliases
 alias nom="npm"
 alias dot="subl ~/.dotfiles"
@@ -27,7 +30,9 @@ alias gup="git push"
 alias gpu="git push -u origin"
 alias gdn="git pull"
 alias devup="git push dev-server develop:master"
+alias merge="git merge"
 alias push="gup && devup"
+alias switch="git checkout"
 
 # server aliases
 alias restart="sudo apachectl restart"

@@ -21,10 +21,10 @@ ${PATH}\
 "
 
 # remove path dupes
-if [[ -n $PATH ]]; then
+if [[ $PATH ]]; then
   old_PATH=$PATH:; PATH=
 
-  while [[ -n $old_PATH ]]; do
+  while [[ $old_PATH ]]; do
     x=${old_PATH%%:*}    # the first remaining entry
 
     case $PATH: in
