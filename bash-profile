@@ -15,3 +15,13 @@ eval "$(rbenv init -)"
 eval "$(thefuck --alias)"
 
 test -e ${HOME}/.iterm2_shell_integration.bash && source ${HOME}/.iterm2_shell_integration.bash
+
+if [[ -f ~/.dotfiles/lib/bash-preexec ]]; then
+  . ~/.dotfiles/lib/bash-preexec
+
+  preexec() {
+    printf "$(tput sc)$(tput cuu1)$(tput cuu1)\
+$(tput bold)$(tput setaf 7)[$(tput setaf 0)$(date +"%H:%M")$(tput bold)$(tput setaf 7)] \
+$(tput rc)$(tput sgr0)"
+  }
+fi
