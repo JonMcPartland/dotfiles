@@ -1,0 +1,19 @@
+#!/usr/local/bin/bash
+
+_sshAutocomplete() {
+  local LINES=($(awk '{print $1}' $HOME/.ssh/known_hosts))
+  local HOSTS=()
+  local SPLIT=()
+
+  for LINE in ${LINES[@]}; do
+    SPLIT=($(echo $LINE | tr ',' ' '))
+
+    for L in ${SPLIT[@]}; do
+      HOSTS+=("$L")
+    done
+  done
+
+  complete -o "default" -o "nospace" -W "${HOSTS[*]}" scp sftp ssh
+
+  unset LINES HOSTS
+}

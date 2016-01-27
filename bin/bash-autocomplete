@@ -10,29 +10,8 @@ if [[ -f $(brew --prefix)/Library/Contributions/brew_bash_completion.sh ]]; then
   . $(brew --prefix)/Library/Contributions/brew_bash_completion.sh
 fi
 
+
 # SSH Autocompletion
-if [[ -f $HOME/.ssh/known_hosts ]]; then
-  _sshCompletion() {
-    local CURRENT="${COMP_WORDS[COMP_CWORD]}"
-    local LINES=($(awk '{print $1}' $HOME/.ssh/known_hosts))
-    local HOSTS=()
-
-    for LINE in ${LINES[@]}; do
-      local SPLIT=($(echo $LINE | tr ',' ' '))
-
-      for L in ${SPLIT[@]}; do
-        HOSTS+=("$L")
-      done
-    done
-
-    if [[ $CURRENT == "" ]]; then
-      COMPREPLY=("${HOSTS[@]}")
-    else
-      COMPREPLY=($(compgen -W "${HOSTS[*]}" -- "$CURRENT"))
-    fi
-
-    return 0
-  }
-
-  complete -F _sshCompletion -o "nospace" scp sftp ssh
+if type _sshAutocomplete > /dev/null &&  [[ -f $HOME/.ssh/known_hosts ]]; then
+  _sshAutocomplete
 fi
