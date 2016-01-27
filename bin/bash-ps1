@@ -39,7 +39,8 @@ prettify() {
   PRMPT+="\[$WHITE\]in "
 
   # pwd
-  PRMPT+="\[$RESET$BLUE\]"
+  PRMPT+="\[$RESET\]"
+  PRMPT+="\[$BLUE\]"
   if [[ ${PWD##*/} == "" ]]; then
     PRMPT+="/"
   elif [[ ${PWD##*/} == $(whoami) ]]; then
@@ -75,7 +76,7 @@ prettify() {
   export PS1=$PRMPT
 
   # set timestamp update running
-  updateTimestamp &
+  # updateTimestamp &
 }
 
 
