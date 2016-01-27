@@ -1,6 +1,6 @@
 #!/usr/local/bin/bash
 
-for option in nocaseglob histappend cdspell autocd globstar; do
-  shopt -s "$option" 2> /dev/null
+for OPTION in nocaseglob histappend cdspell autocd globstar; do
+  shopt -s "$OPTION" 2> /dev/null
 done
-unset option
+unset OPTION
