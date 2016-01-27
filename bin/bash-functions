@@ -12,7 +12,7 @@ up() {
 }
 
 # toggle hidden file visibility
-hidden() {
+showDots() {
   if [[ $(defaults read com.apple.finder AppleShowAllFiles) == YES ]]; then
     defaults write com.apple.finder AppleShowAllFiles NO
   else
@@ -23,10 +23,12 @@ hidden() {
 # gets git info
 isInGit() {
   local gitrepo=$(git rev-parse --is-inside-work-tree 2> /dev/null)
+  local branch=""
+  local status=""
 
   if $gitrepo != ""; then
-    local branch=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
-    local status=$(git status --porcelain 2> /dev/null | tail -n1)
+    branch=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
+    status=$(git status --porcelain 2> /dev/null | tail -n1)
   fi
 
   echo $gitrepo
