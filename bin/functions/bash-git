@@ -1,0 +1,16 @@
+#!/usr/local/bin/bash
+
+isInGit() {
+  local GITREPO=$(git rev-parse --is-inside-work-tree 2> /dev/null)
+  local BRANCH=""
+  local STATUS=""
+
+  if $GITREPO != ""; then
+    BRANCH=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
+    STATUS=$(git status --porcelain 2> /dev/null | tail -n1)
+  fi
+
+  echo $GITREPO
+  echo $BRANCH
+  echo $STATUS
+}

@@ -1,0 +1,41 @@
+#!/usr/local/bin/bash
+
+_tidyUpPath() {
+  PATH="\
+$HOME/.rbenv/bin:\
+$HOME/.rbenv/shims:\
+$HOME/.composer/vendor/bin:\
+/usr/local/bin:\
+/usr/local/git/bin:\
+/usr/local/mysql/bin:\
+/usr/bin:\
+/bin:\
+/usr/local/sbin:\
+/usr/sbin:\
+/sbin:\
+/opt/X11/bin:\
+$PATH\
+  "
+
+  # remove path dupes
+  if [[ $PATH ]]; then
+    OLD_PATH=$PATH:; PATH=
+
+    while [[ $OLD_PATH ]]; do
+      X=${OLD_PATH%%:*}    # the first remaining entry
+
+      case $PATH: in
+        *:"$X":*) ;;       # already there
+        *) PATH=$PATH:$X;; # not there yet
+      esac
+
+      OLD_PATH=${OLD_PATH#*:}
+    done
+
+    PATH=${PATH#:}
+
+    unset OLD_PATH X
+  fi
+
+  export PATH="$PATH"
+}

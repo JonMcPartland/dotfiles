@@ -1,21 +1,32 @@
 #!/usr/local/bin/bash
 
-# Prepend timestamp to `history`
+# nice opts
+for OPTION in nocaseglob histappend cdspell autocd globstar; do
+  shopt -s "$OPTION" 2> /dev/null
+done
+unset OPTION
+
+
+# Prepend timestamp to history
 HISTTIMEFORMAT="%d/%m/%y %T "
 
-# sources
-for FILE in ~/.dotfiles/bin/bash-*; do
-  if [[ -r $FILE && -f $FILE ]]; then
-    . $FILE
-  fi
+
+# binary paths
+export PHANTOMJS_BIN=/usr/local/bin/phantomjs
+export RBENV_ROOT=/usr/local/var/rbenv
+export PYTHONPATH=/usr/local/bin/python
+
+
+# sources @todo: fix dirname
+for FILE in ~/.dotfiles/{lib,bin,bin/*}/bash-*; do
+  test -f $FILE && . $FILE
 done
-unset FILE
 
-eval "$(rbenv init -)"
-eval "$(thefuck --alias)"
 
-test -e ${HOME}/.iterm2_shell_integration.bash && source ${HOME}/.iterm2_shell_integration.bash
+# remove path dupes
+type _tidyUpPath &> /dev/null && _tidyUpPath
 
-# if [[ -f ~/.dotfiles/lib/bash-preexec ]]; then
-#   . ~/.dotfiles/lib/bash-preexec
-# fi
+
+# evil
+type rbenv   &> /dev/null && eval "$(rbenv init -)"
+type thefuck &> /dev/null && eval "$(thefuck --alias)"

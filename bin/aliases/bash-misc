@@ -1,0 +1,6 @@
+#!/usr/local/bin/bash
+
+alias dot="subl ~/.dotfiles"
+alias dodot=". ~/.bash_profile"
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias colour="pygmentize -O style=monokai -f console256 -g" # (pipe it)

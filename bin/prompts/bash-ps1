@@ -1,14 +1,5 @@
 #!/usr/local/bin/bash
 
-updateTimestamp() {
-  while true; do
-    sleep 10
-    printf "$(tput sc)$(tput cuu 1)$(tput cub 999)\
-$(tput bold)$(tput setaf 7)[$(tput setaf 0)$(date +"%H:%M")$(tput bold)$(tput setaf 7)]\
-$(tput rc)$(tput sgr0)"
-  done
-}
-
 prettify() {
   local PRMPT=""
 
@@ -50,7 +41,7 @@ prettify() {
   fi
 
   # git info
-  read ISGIT BRANCH STATUS <<< $(isInGit 2> /dev/null)
+  read ISGIT BRANCH STATUS <<< $(isInGit &> /dev/null)
   if [[ $ISGIT ]]; then          # if is git repo
     if [[ $STATUS == "" ]]; then # if clean repo
       CLR=$GREEN                 # green status

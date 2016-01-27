@@ -1,0 +1,15 @@
+#!/usr/local/bin/bash
+
+alias lls="ls -AeGl"
+alias ungz="tar -zxvf"
+alias dogz="tar -cvf"
+alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
+alias shoot="webkit2png -F -W 1280 -D ~/Desktop"
+alias sync="browser-sync start --proxy "
+
+alias restart="sudo apachectl restart"
+alias hosts="sudo subl /etc/hosts"
+alias servers="cat /usr/local/etc/apache2/extra/httpd-vhosts.conf | grep ServerName -A 1"
+alias vhost="sudo subl /usr/local/etc/apache2/extra/httpd-vhosts.conf"
+alias logs="subl /private/var/log/apache2/"
+alias flush="sudo killall -HUP mDNSResponder"

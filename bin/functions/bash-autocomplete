@@ -1,5 +1,6 @@
 #!/usr/local/bin/bash
 
+# autocomplete ssh from known_hosts
 _sshAutocomplete() {
   local LINES=($(awk '{print $1}' $HOME/.ssh/known_hosts))
   local HOSTS=()
@@ -15,5 +16,7 @@ _sshAutocomplete() {
 
   complete -o "default" -o "nospace" -W "${HOSTS[*]}" scp sftp ssh
 
-  unset LINES HOSTS
+  unset LINES HOSTS SPLIT
 }
+
+test -f $HOME/.ssh/known_hosts && _sshAutocomplete

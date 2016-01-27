@@ -1,0 +1,14 @@
+#!/usr/local/bin/bash
+
+# Bash Autocompletion
+FILES=($(brew --prefix)/share/bash-completion/bash_completion)
+# Homebrew Autocompletion
+FILES+=($(brew --prefix)/Library/Contributions/brew_bash_completion.sh)
+# iTerm 2 Integration
+FILES+=($HOME/.iterm2_shell_integration.bash)
+
+for FILE in ${FILES[@]}; do
+  test -f $FILE && . $FILE
+done
+
+unset FILES

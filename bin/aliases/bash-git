@@ -1,0 +1,16 @@
+#!/usr/local/bin/bash
+
+alias ga="git add --all"
+alias gb="git blame"
+alias gc="git commit -m"
+alias gd="git diff"
+alias gf="git fetch --all"
+alias gl='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%<(14,trunc)%cr%Creset - %C(blue)%<(14,trunc)%an%Creset - %C(white)%s"'
+alias gs="git status --short"
+alias gup="git push"
+alias gpu="git push -u origin"
+alias gdn="git pull"
+alias devup="git push dev-server develop:master"
+alias merge="git merge"
+alias push="gup && devup"
+alias switch="git checkout"
