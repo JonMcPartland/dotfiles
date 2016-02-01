@@ -1,16 +1,17 @@
 #!/usr/local/bin/bash
 
 isInGit() {
-  local GITREPO=$(git rev-parse --is-inside-work-tree 2> /dev/null)
-  local BRANCH=""
-  local STATUS=""
+  local GITINFO=()
 
-  if $GITREPO != ""; then
-    BRANCH=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
-    STATUS=$(git status --porcelain 2> /dev/null | tail -n1)
-  fi
+  GITINFO+=($(git rev-parse --is-inside-work-tree 2> /dev/null))
+  GITINFO+=($(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'))
+  GITINFO+=($(git status --porcelain 2> /dev/null | tail -n1))
 
-  echo $GITREPO
-  echo $BRANCH
-  echo $STATUS
+  for I in "${!GITINFO[@]}"; do
+    if [[ "${GITINFO[$I]}" == *"Not a git repository"* ]]; then
+      GITINFO["$I"]=""
+    fi
+  done
+
+  printf '%s ' "${GITINFO[@]}"
 }

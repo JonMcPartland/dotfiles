@@ -41,7 +41,7 @@ prettify() {
   fi
 
   # git info
-  read ISGIT BRANCH STATUS <<< $(isInGit &> /dev/null)
+  read ISGIT BRANCH STATUS <<< $(isInGit 2> /dev/null)
   if [[ $ISGIT ]]; then          # if is git repo
     if [[ $STATUS == "" ]]; then # if clean repo
       CLR=$GREEN                 # green status
@@ -65,9 +65,6 @@ prettify() {
 
   # set PS1
   export PS1=$PRMPT
-
-  # set timestamp update running
-  # updateTimestamp &
 }
 
 
