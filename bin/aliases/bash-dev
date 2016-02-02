@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 alias lls="ls -AeGl"
 alias ungz="tar -zxvf"

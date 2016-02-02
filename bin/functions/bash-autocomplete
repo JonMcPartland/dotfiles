@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 # autocomplete ssh from known_hosts
 _sshAutocomplete() {

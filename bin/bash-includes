@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 # Bash Autocompletion
 FILES=($(brew --prefix)/share/bash-completion/bash_completion)

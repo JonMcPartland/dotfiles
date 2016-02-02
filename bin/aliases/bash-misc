@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 alias dot="subl ~/.dotfiles"
 alias dodot=". ~/.bash_profile"
