@@ -2,7 +2,10 @@
 
 # autocomplete ssh from known_hosts
 _sshAutocomplete() {
-  local LINES=($(awk '{print $1}' $HOME/.ssh/known_hosts))
+  local LINES=(
+    $(awk '{print $1}' $HOME/.ssh/known_hosts),
+    $(cat $HOME/.ssh/config | grep "^Host " | awk '{print $2}' | sed -e 's/\[\(^]*\)\]/{\1}/g')
+  )
   local HOSTS=()
   local SPLIT=()
 
@@ -14,7 +17,7 @@ _sshAutocomplete() {
     done
   done
 
-  complete -o "default" -o "nospace" -W "${HOSTS[*]}" scp sftp ssh
+  complete -o "bashdefault" -o "nospace" -W "${HOSTS[*]}" scp sftp ssh
 
   unset LINES HOSTS SPLIT
 }
