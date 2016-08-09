@@ -1,7 +1,9 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
+
+FILES=()
 
 # Bash Autocompletion
-FILES=($(brew --prefix)/share/bash-completion/bash_completion)
+FILES+=($(brew --prefix)/share/bash-completion/bash_completion)
 # Homebrew Autocompletion
 FILES+=($(brew --prefix)/Library/Contributions/brew_bash_completion.sh)
 # iTerm 2 Integration

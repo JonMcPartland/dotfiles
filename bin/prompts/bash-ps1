@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 prettify() {
   local PRMPT=""
@@ -41,9 +41,10 @@ prettify() {
   fi
 
   # git info
-  read ISGIT BRANCH STATUS <<< $(isInGit 2> /dev/null)
+  read ISGIT GITBRANCH GITSTATUS <<< $(isInGit 2> /dev/null)
+  read SVNSTATUS SVNBRANCH SVNREV <<< $(isInSvn 2> /dev/null)
   if [[ $ISGIT ]]; then          # if is git repo
-    if [[ $STATUS == "" ]]; then # if clean repo
+    if [[ $GITSTATUS == "" ]]; then # if clean repo
       CLR=$GREEN                 # green status
     else                         # else if dirty repo
       CLR=$RED                   # red status
@@ -53,9 +54,27 @@ prettify() {
     PRMPT+="\[$RESET\]"
     PRMPT+="\[$WHITE\] on "
 
-    # set branch name
+    # set GITBRANCH name
     PRMPT+="\[$RESET\]"
-    PRMPT+="\[$DIM$CLR\]$BRANCH"
+    PRMPT+="\[$DIM$CLR\]$GITBRANCH"
+  elif [[ $SVNBRANCH ]]; then
+    if [[ $SVNSTATUS -gt 0 ]]; then
+      CLR=$RED
+    else
+      CLR=$GREEN
+    fi
+
+    PRMPT+="\[$RESET\]"
+    PRMPT+="\[$WHITE\] on "
+
+    PRMPT+="\[$RESET\]"
+    PRMPT+="\[$DIM$CLR\]$SVNBRANCH"
+
+    PRMPT+="\[$RESET\]"
+    PRMPT+="\[$WHITE\] at "
+
+    PRMPT+="\[$RESET\]"
+    PRMPT+="\[$DIM$CLR\]$SVNREV"
   fi
 
   # the prompt itself

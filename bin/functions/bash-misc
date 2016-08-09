@@ -1,6 +1,6 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 # generate random string of n length
 randString() {
-  cat /dev/random | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+  head -c 500 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:][:punct:][:graph:][:print:]' | head -c ${1:-32}
 }

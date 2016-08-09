@@ -1,14 +1,28 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 # nice opts
-for OPTION in nocaseglob histappend cdspell autocd globstar; do
+for OPTION in nocaseglob globstar histappend cmdhist cdspell dirspell autocd cdable_vars; do
   shopt -s "$OPTION" 2> /dev/null
 done
 unset OPTION
 
 
-# Prepend timestamp to history
-HISTTIMEFORMAT="%d/%m/%y %T "
+# navigation
+CDPATH=".:~/localserver"
+
+
+# History formatting
+HISTTIMEFORMAT="%d/%m/%y %T "      # timestamp
+HISTSIZE=500000                    # num lines
+HISTFILESIZE=100000                # num bytes
+HISTCONTROL="erasedups:ignoreboth" # prevent dupes
+HISTIGNORE="&:[ ]*:cd:ls:history"  # ignore boring cmds
+
+
+# autocompletion
+bind "set completion-ignore-case on"
+bind "set completion-map-case on"
+bind "set show-all-if-ambiguous on"
 
 
 # binary paths
@@ -27,6 +41,8 @@ done
 type _tidyUpPath &> /dev/null && _tidyUpPath
 
 
-# evil
+# here be dragons
 type rbenv   &> /dev/null && eval "$(rbenv init -)"
 type thefuck &> /dev/null && eval "$(thefuck --alias)"
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

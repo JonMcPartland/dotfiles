@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+# keybase
 alias enc="pbpaste | keybase encrypt"
-alias dec="pbpaste | keybase decrypt | pbcopy"
+alias dec="pbpaste | keybase decrypt"
 alias penc="pbpaste | keybase pgp encrypt"
-alias pdec="pbpaste | keybase pgp decrypt | pbcopy"
+alias pdec="pbpaste | keybase pgp decrypt"
+alias track="keybase track"
