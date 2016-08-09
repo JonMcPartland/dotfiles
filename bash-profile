@@ -44,3 +44,5 @@ type _tidyUpPath &> /dev/null && _tidyUpPath
 # here be dragons
 type rbenv   &> /dev/null && eval "$(rbenv init -)"
 type thefuck &> /dev/null && eval "$(thefuck --alias)"
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

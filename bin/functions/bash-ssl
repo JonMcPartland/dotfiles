@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+function makeCert() {
+  KEYSIZE="${1:-4096}";
+  DIRECTORY="${2:-~/.ssl}";
+  CERTNAME="${3:-newkey}";
+
+  openssl req -x509 -newkey "rsa:$KEYSIZE" -keyout "$DIRECTORY/$CERTNAME-key.pem" -out "$DIRECTORY/$CERTNAME-cert.pem" -nodes
+}

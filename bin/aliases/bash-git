@@ -8,9 +8,11 @@ alias gf="git fetch --all"
 alias gl='git log --pretty=format:"%C(yellow)%h%Creset - %C(green)%<(14,trunc)%cr%Creset - %C(blue)%<(14,trunc)%an%Creset - %C(white)%s"'
 alias gs="git status --short"
 alias gup="git push"
-alias gpu="git push -u origin"
+alias gpu="git push --set-upstream origin"
 alias gdn="git pull"
 alias devup="git push dev-server develop:master"
 alias merge="git merge"
 alias push="gup && devup"
 alias switch="git checkout"
+
+alias gall="git push dev-server && gup && git push beanstalk master && switch develop && merge master && gup && git push beanstalk develop && switch uat && merge master && gup && git push beanstalk uat && switch master"

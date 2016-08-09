@@ -13,3 +13,5 @@ alias servers="cat /usr/local/etc/apache2/extra/httpd-vhosts.conf | grep ServerN
 alias vhost="sudo subl /usr/local/etc/apache2/extra/httpd-vhosts.conf"
 alias logs="subl /private/var/log/apache2/"
 alias flush="sudo killall -HUP mDNSResponder"
+
+alias grind="valgrind --track-origins=yes"
