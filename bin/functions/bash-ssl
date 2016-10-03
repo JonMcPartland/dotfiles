@@ -1,9 +1,257 @@
 #!/usr/bin/env bash
 
-function makeCert() {
-  KEYSIZE="${1:-4096}";
-  DIRECTORY="${2:-~/.ssl}";
-  CERTNAME="${3:-newkey}";
+function _fancyLine() {
+  local MSG="==> $(tput bold)$(tput setaf 7)${2}$(tput sgr0)";
 
-  openssl req -x509 -newkey "rsa:$KEYSIZE" -keyout "$DIRECTORY/$CERTNAME-key.pem" -out "$DIRECTORY/$CERTNAME-cert.pem" -nodes
+  if [[ "${1}" == "OK" ]]; then
+    echo "$(tput setaf 2)${MSG}";
+  elif [[ "${1}" == "INFO" ]]; then
+    echo "$(tput setaf 4)${MSG}";
+  elif [[ "${1}" == "WARN" ]]; then
+    echo "$(tput setaf 3)${MSG}";
+  else
+    echo "$(tput setaf 1)${MSG}";
+  fi
+}
+
+function _createCARoot() {
+  local BASEDIR="${HOME}/.ssl/ca/root";
+
+  _fancyLine "INFO" "Please provide the Common Name for the Root Authority.";
+  read COMMON;
+
+  openssl req \
+    -config "${BASEDIR}/openssl.cnf" \
+    -extensions v3_ca \
+    -subj "/C=GB/ST=England/L=Middlesbrough/O=Big Bite Creative Ltd/CN=${COMMON}" \
+    -new \
+    -x509 \
+    -sha256 \
+    -days 7300 \
+    -key "${BASEDIR}/private/root.key.pem" \
+    -out "${BASEDIR}/certs/root.cert.pem" \
+  2> /dev/null;
+
+  chmod 444 "${BASEDIR}/certs/root.cert.pem";
+
+  # verify
+  # openssl x509 -noout -text -in certs/root.cert.pem
+
+  _fancyLine "OK" "Root Certificate created.";
+
+  _fancyLine "WARN" "Requesting sudo to add Root Certificate to Login Keychain.";
+  sudo security add-trusted-cert -d \
+    -r trustRoot \
+    -k "${HOME}/Library/Keychains/Login.keychain" \
+    "${BASEDIR}/certs/root.cert.pem" \
+  2> /dev/null;
+
+  _fancyLine "OK" "Root Certificate added to Keychain.";
+}
+
+function _createCAIntermediate() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+  local ROOTDIR="${HOME}/.ssl/ca/root";
+
+  _fancyLine "INFO" "Please provide the Common Name for the Intermediate Authority.";
+  read COMMON;
+
+  AltName="" \
+    openssl req \
+      -config "${BASEDIR}/openssl.cnf" \
+      -subj "/C=GB/ST=England/L=Middlesbrough/O=Big Bite Creative Ltd/CN=${COMMON}" \
+      -new \
+      -sha256 \
+      -key "${BASEDIR}/private/intermediate.key.pem" \
+      -out "${BASEDIR}/csr/intermediate.csr.pem" \
+  2> /dev/null;
+
+  yes | AltName="" \
+    openssl ca \
+      -config "${ROOTDIR}/openssl.cnf" \
+      -extensions v3_intermediate_ca \
+      -notext \
+      -md sha256 \
+      -days 3650 \
+      -in "${BASEDIR}/csr/intermediate.csr.pem" \
+      -out "${BASEDIR}/certs/intermediate.cert.pem" \
+  2> /dev/null;
+
+  chmod 444 "${BASEDIR}/certs/intermediate.cert.pem";
+
+  # verify
+  # openssl x509 -noout -text -in "${BASEDIR}/certs/intermediate.cert.pem"
+  local VERIFIED=$(openssl verify \
+    -CAfile ${ROOTDIR}/certs/root.cert.pem \
+    ${BASEDIR}/certs/intermediate.cert.pem | awk '{print $2}');
+
+  if [[ "${VERIFIED}" == "OK" ]]; then
+    _fancyLine "OK" "Intermediate Certificate created.";
+  else
+    _fancyLine "ERROR" "Intermediate Certificate invalid. Please retry.";
+
+    return 1;
+  fi
+}
+
+function newCA() {
+  local ROOTDIR="${HOME}/.ssl/ca";
+
+  mkdir -p "${HOME}/.ssl" "${ROOTDIR}";
+
+  local DIRS=("root" "intermediate");
+  for DIR in "${DIRS[@]}"; do
+    LOC="${ROOTDIR}/${DIR}";
+
+    mkdir -p "${LOC}" "${LOC}/certs" "${LOC}/crl" "${LOC}/csr" "${LOC}/newcerts" "${LOC}/private";
+    chmod 700 "${LOC}/private";
+
+    if [ ! -e "${LOC}/index.txt" ]; then
+      touch "${LOC}/index.txt";
+    fi
+
+    if [ ! -e "${LOC}/serial" ]; then
+      echo 1000 > "${LOC}/serial";
+    fi
+
+    if [ ! -e "${LOC}/crlnumber" ]; then
+      echo 1000 > "${LOC}/crlnumber";
+    fi
+
+    if [ ! -e "${LOC}/openssl.cnf" ]; then
+      cp "${HOME}/.dotfiles/_files/${DIR}.cnf" "${LOC}/openssl.cnf";
+    fi
+
+    openssl genrsa -out "${LOC}/private/${DIR}.key.pem" 4096 2> /dev/null;
+    chmod 400 "${LOC}/private/${DIR}.key.pem";
+
+    _fancyLine "OK" "${DIR^} Authority private key created.";
+  done;
+
+  _createCARoot;
+  _createCAIntermediate;
+
+  cat "${ROOTDIR}/intermediate/certs/intermediate.cert.pem" "${ROOTDIR}/root/certs/root.cert.pem" \
+    > "${ROOTDIR}/intermediate/certs/ca-chain.cert.pem";
+
+  chmod 444 "${ROOTDIR}/intermediate/certs/ca-chain.cert.pem";
+
+  _fancyLine "OK" "Certificate chain created.";
+  _fancyLine "INFO" "Chain: ${ROOTDIR}/intermediate/certs/ca-chain.cert.pem";
+}
+
+
+function _generateSAN() {
+  local DOMAINS=(${@})
+
+  local SAN="";
+  for (( i = ${#DOMAINS[@]} - 1; i >= 0; i-- )); do
+    SAN="DNS:${DOMAINS[i]},${SAN}";
+
+    # if only domain wildcards, add apex too
+    if [[ ${DOMAINS[i]} == "*."* ]]; then
+      TMP=$(echo "${DOMAINS[i]}" | sed 's/\*\.//g');
+      SAN="DNS:${TMP},${SAN}";
+    fi
+  done
+  SAN="${SAN%?}";
+
+  echo "${SAN}";
+}
+
+function _createPrivateKey() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+
+  openssl genrsa -out "${BASEDIR}/private/${1}.key.pem" 4096 2> /dev/null;
+  chmod 400 "${BASEDIR}/private/${1}.key.pem" 2> /dev/null;
+
+  _fancyLine "OK" "Private key created.";
+}
+
+function _createCSRRequest() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+
+  AltName="${3}" \
+    openssl req \
+      -new -sha256 \
+      -config "${BASEDIR}/openssl.cnf" \
+      -subj "/C=GB/ST=England/L=Middlesbrough/O=Big Bite Creative Ltd/OU=Jon McPartland/CN=${2}" \
+      -key "${BASEDIR}/private/${1}.key.pem" \
+      -out "${BASEDIR}/csr/${1}.csr.pem" \
+  2> /dev/null;
+
+  _fancyLine "OK" "Certificate Signing Request created.";
+}
+
+function _createCertificate() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+
+  yes | AltName="${3}" \
+    openssl ca \
+      -config "${BASEDIR}/openssl.cnf" \
+      -extensions server_cert \
+      -days 375 \
+      -notext \
+      -md sha256 \
+      -in "${BASEDIR}/csr/${1}.csr.pem" \
+      -out "${BASEDIR}/certs/${1}.cert.pem" \
+  2> /dev/null;
+
+  chmod 444 "${BASEDIR}/certs/${1}.cert.pem" 2> /dev/null;
+
+  # verify
+  # openssl x509 -noout -text -in "${BASEDIR}/certs/metro-apps-dev.cert.pem"
+  VERIFIED=$(openssl verify \
+    -CAfile \
+    ${BASEDIR}/certs/ca-chain.cert.pem \
+    ${BASEDIR}/certs/${1}.cert.pem | awk '{print $2}');
+
+  if [[ "${VERIFIED}" == "OK" ]]; then
+    _fancyLine "OK" "Cert: ${BASEDIR}/certs/${1}.cert.pem";
+    _fancyLine "OK" "Key:  ${BASEDIR}/private/${1}.key.pem";
+  else
+    _fancyLine "ERROR" "Signed Certificate invalid. Please retry.";
+
+    return 1;
+  fi
+}
+
+function newSSL() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+  local CERTNAME="${1,,}";
+  local CERTNAME="${CERTNAME// /-}";
+
+  read SANAMES <<< $(_generateSAN "${@:2}" 2> /dev/null)
+
+  _createPrivateKey "${CERTNAME}";
+  _createCSRRequest "${CERTNAME}" "${1}" "${SANAMES}";
+  _createCertificate "${CERTNAME}" "${1}" "${SANAMES}";
+}
+
+
+function _regenerateCRL() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+
+  openssl ca \
+    -gencrl \
+    -config "${BASEDIR}/openssl.conf" \
+    -out "${BASEDIR}/crl/intermediate.crl.pem" \
+  2> /dev/null;
+
+  _fancyLine "OK" "Certificate revocation list updated.";
+}
+
+function revokeSSL() {
+  local BASEDIR="${HOME}/.ssl/ca/intermediate";
+  CERTNAME="${1,,}";
+  CERTNAME="${CERTNAME// /-}";
+
+  openssl ca \
+    -config "${BASEDIR}/openssl.conf" \
+    -revoke "${BASEDIR}/certs/${CERTNAME}.cert.pem" \
+  2> /dev/null;
+
+  _regenerateCRL;
+
+  _fancyLine "OK" "Certificate for ${CERTNAME} revoked.";
 }
