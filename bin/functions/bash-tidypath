@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
 
 _tidyUpPath() {
-  PATH="\
-$HOME/.rbenv/bin:\
-$HOME/.rbenv/shims:\
-$HOME/.composer/vendor/bin:\
-/usr/local/bin:\
-/usr/local/git/bin:\
-/usr/local/mysql/bin:\
-/usr/bin:\
-/bin:\
-/usr/local/sbin:\
-/usr/sbin:\
-/sbin:\
-/opt/X11/bin:\
-$PATH\
-  "
+  OLD="$PATH"
+  PATH=""
+  # Ruby bindirs
+  PATH="$PATH:$HOME/.rbenv/bin"
+  PATH="$PATH:$HOME/.rbenv/shims"
+  # PHP bindirs
+  PATH="$PATH:$HOME/.composer/vendor/bin"
+  # JS bindirs
+  PATH="$PATH:$HOME/.yarn/bin"
+  # Misc bindirs
+  PATH="$PATH:/usr/local/bin"
+  PATH="$PATH:/usr/local/git/bin"
+  PATH="$PATH:/usr/local/mysql/bin"
+  PATH="$PATH:/opt/X11/bin"
+  # Builtin bindirs
+  PATH="$PATH:/usr/bin"
+  PATH="$PATH:/bin"
+  PATH="$PATH:/usr/local/sbin"
+  PATH="$PATH:/usr/sbin"
+  PATH="$PATH:/sbin"
+  PATH="$PATH:$OLD"
+
 
   # remove path dupes
   if [[ $PATH ]]; then
@@ -36,6 +43,8 @@ $PATH\
 
     unset OLD_PATH X
   fi
+
+  PATH=$(echo "$PATH" | sed 's/^://')
 
   export PATH="$PATH"
 }
