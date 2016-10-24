@@ -16,7 +16,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "      # timestamp
 HISTSIZE=500000                    # num lines
 HISTFILESIZE=100000                # num bytes
 HISTCONTROL="erasedups:ignoreboth" # prevent dupes
-HISTIGNORE="&:[ ]*:cd:ls:history"  # ignore boring cmds
+HISTIGNORE="&:[ ]*:cd:ls:history:ga:gdn:gup:gs:clear:" # ignore boring cmds
 
 
 # autocompletion
