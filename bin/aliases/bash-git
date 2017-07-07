@@ -14,5 +14,3 @@ alias devup="git push dev-server develop:master"
 alias merge="git merge"
 alias push="gup && devup"
 alias switch="git checkout"
-
-alias gall="git push dev-server && gup && git push beanstalk master && switch develop && merge master && gup && git push beanstalk develop && switch uat && merge master && gup && git push beanstalk uat && switch master"
