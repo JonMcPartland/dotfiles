@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+function newVhost() {
+  _fancyLine "OK" "Let's create a new Apache Virtual Host";
+
+  # get user input for hostname, directory
+  _fancyLine "INFO" "Desired hostname:";
+  read HOST;
+
+  _fancyLine "INFO" "Root directory:";
+  read BASEDIR;
+
+  newSSL "$HOST" "*.$HOST";
+
+  # add apache entry
+  sed -e "s;%HOST%;$HOST;g"\
+      -e "s;%BASEDIR%;$BASEDIR;g"\
+      -e "s;%HOME%;$HOME;g"\
+    "$HOME/.dotfiles/_files/vhost.conf"\
+    > "$(brew --prefix)/etc/apache2/vhosts/$(echo $HOST | cut -d '.' -f1).conf";
+
+  # elevate for hosts modificatoin && webserver restart
+  _fancyLine "WARN" "Requesting elevated privileges for modifying hosts entries"
+  [ "$UID" -eq 0 ] || exec sudo "$0" "$@"
+
+  # add hosts entry
+  _fancyLine "WARN" "Updating hosts file"
+  echo "127.0.0.1       $HOST" | sudo tee -a /etc/hosts;
+
+  # restart webserver
+  _fancyLine "WARN" "Restarting Homebrew Apache"
+  sudo brew services restart httpd24 2>&1 /dev/null;
+}

@@ -82,6 +82,10 @@ prettify() {
   PRMPT+="$BREAK\[$YELLOW\]» "
   PRMPT+="\[$RESET\]"
 
+  # old fg colour: a4e192
+  # smso makes it bg colour
+  # PRMPT+="\[$(tput smso)\]"
+
   # set PS1
   export PS1=$PRMPT
 }

@@ -4,3 +4,10 @@
 randString() {
   head -c 500 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:][:punct:][:graph:][:print:]' | head -c ${1:-32}
 }
+
+# generate a random integer of n length
+randNum() {
+  head -c 500 /dev/urandom | env LC_CTYPE=C tr -dc '0-9' | head -c ${1:-32}
+  # cheat way to add newline
+  echo ''
+}

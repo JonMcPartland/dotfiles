@@ -26,10 +26,10 @@ bind "set show-all-if-ambiguous on"
 
 
 # binary paths
-export PHANTOMJS_BIN=/usr/local/bin/phantomjs
 export RBENV_ROOT=/usr/local/var/rbenv
 export PYTHONPATH=/usr/local/bin/python
-
+export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+# export GIT_TEMPLATE_DIR=/Users/Jon/localserver/hooks
 
 # sources @todo: fix dirname
 for FILE in ~/.dotfiles/{bin/*,bin}/bash-*; do
@@ -44,5 +44,3 @@ type _tidyUpPath &> /dev/null && _tidyUpPath
 # here be dragons
 type rbenv   &> /dev/null && eval "$(rbenv init -)"
 type thefuck &> /dev/null && eval "$(thefuck --alias)"
-
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

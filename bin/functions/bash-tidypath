@@ -3,25 +3,22 @@
 _tidyUpPath() {
   OLD="$PATH"
   PATH=""
-  # Ruby bindirs
   PATH="$PATH:$HOME/.rbenv/bin"
   PATH="$PATH:$HOME/.rbenv/shims"
-  # PHP bindirs
   PATH="$PATH:$HOME/.composer/vendor/bin"
-  # JS bindirs
   PATH="$PATH:$HOME/.yarn/bin"
-  # Misc bindirs
+  PATH="$PATH:$HOME/Library/Python/2.7/bin"
+  PATH="$PATH:/usr/local/opt/curl/bin"
   PATH="$PATH:/usr/local/bin"
   PATH="$PATH:/usr/local/git/bin"
   PATH="$PATH:/usr/local/mysql/bin"
   PATH="$PATH:/opt/X11/bin"
-  # Builtin bindirs
+
   PATH="$PATH:/usr/bin"
   PATH="$PATH:/bin"
   PATH="$PATH:/usr/local/sbin"
   PATH="$PATH:/usr/sbin"
   PATH="$PATH:/sbin"
-  PATH="$PATH:$OLD"
 
 
   # remove path dupes
