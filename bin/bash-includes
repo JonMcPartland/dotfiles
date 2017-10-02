@@ -6,6 +6,10 @@ FILES=()
 FILES+=($(brew --prefix)/share/bash-completion/bash_completion)
 # Homebrew Autocompletion
 FILES+=($(brew --prefix)/Library/Contributions/brew_bash_completion.sh)
+# Node Version Manager
+FILES+=($(brew --prefix)/etc/bash_completion.d/nvm)
+# WP CLI Autocompletion
+FILES+=($(brew --prefix)/share/bash-completion/wp-completion.bash)
 # iTerm 2 Integration
 FILES+=($HOME/.iterm2_shell_integration.bash)
 

@@ -9,3 +9,5 @@ alias gif="convert -delay 20 -loop 0 $0 $1.gif"
 alias dirsize="du -sh"
 alias dirsizes="du -h -d=1"
 alias bigfirst="sort -nk1"
+
+alias fucking="sudo"

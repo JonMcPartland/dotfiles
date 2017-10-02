@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+function regen() {
+  _fancyLine 'OK' 'Enter media to regenerate'
+  read images
+  _fancyLine 'OK' 'Enter site url, if required'
+  read url
+  _fancyLine 'OK' 'Enter site path, if required'
+  read path
+
+  if [ $url ]; then
+    url="url=$url"
+  else
+    url=''
+  fi
+
+  if [ $path ]; then
+    path="path='$path'"
+  else
+    path=''
+  fi
+
+  wp media regenerate --skip-delete --yes "$images" "$url" "$path"
+}

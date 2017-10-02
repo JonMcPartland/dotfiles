@@ -26,6 +26,7 @@ function newVhost() {
   # add hosts entry
   _fancyLine "WARN" "Updating hosts file"
   echo "127.0.0.1       $HOST" | sudo tee -a /etc/hosts;
+  echo "::1             $HOST" | sudo tee -a /etc/hosts;
 
   # restart webserver
   _fancyLine "WARN" "Restarting Homebrew Apache"

@@ -27,7 +27,8 @@ Clone into `~/.dotfiles/`:
 cd ~ && git clone https://github.com/JonMcPartland/dotfiles.git .dotfiles
 ```
 
-Symlink to `.bash_profile`:  
+Create symlinks:  
 ```bash
 ln -s ~/.dotfiles/bash-profile ~/.bash_profile
+ln -s ~/.dotfiles/screenrc ~/.screenrc
 ```

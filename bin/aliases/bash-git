@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+alias abort='git merge --abort'
 alias amend='git commit --amend -m'
 alias branches='git branch -vvv --sort=-committerdate'
 alias comp='gl --date=relative'
+alias conflicts="gs | grep -e '^UU' --color=always"
 alias dateof='git show -s --format=%ci'
 alias ga='git add --all'
 alias gb='git blame'
@@ -18,3 +20,5 @@ alias gup='git push'
 alias merge='git merge'
 alias pick='git cherry-pick'
 alias switch='git checkout'
+alias trymerge='git merge --no-commit --no-ff'
+alias uu='conflicts'

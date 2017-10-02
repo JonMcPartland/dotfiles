@@ -2,12 +2,18 @@
 
 # generate random string of n length
 randString() {
-  head -c 500 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:][:punct:][:graph:][:print:]' | head -c ${1:-32}
+  STR=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:]' | head -c ${1:-32})
+  echo "$STR"
+}
+
+# generate random string of n length inc special chars
+randChars() {
+  STR=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:][:punct:][:graph:][:print:]' | head -c ${1:-32})
+  echo "$STR"
 }
 
 # generate a random integer of n length
 randNum() {
-  head -c 500 /dev/urandom | env LC_CTYPE=C tr -dc '0-9' | head -c ${1:-32}
-  # cheat way to add newline
-  echo ''
+  NUM=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '0-9' | head -c ${1:-32})
+  echo "$NUM"
 }

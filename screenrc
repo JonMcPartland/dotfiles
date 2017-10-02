@@ -1,0 +1,5 @@
+# Display screen info
+caption always "%{= kc}Screen session on %H"
+# Use BASH
+shell "/usr/local/bin/bash"
+defshell -bash

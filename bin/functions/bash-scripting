@@ -3,7 +3,7 @@
 # notification "Title" "Line one" "Line two"
 notification() {
   if hash growlnotify 2> /dev/null; then
-    growlnotify -t "$1" -m "$2"$'\n'"$3" --image "/Applications/iTerm.app/Contents/Resources/iTerm.icns"
+    growlnotify -t "$1" -m "$2"$'\n'"$3" --image "/Applications/iTerm.app/Contents/Resources/AppIcon.icns"
   else
     osascript -e 'display notification "'$2'\n'$3'" with title "'$1'"';
   fi

@@ -6,3 +6,5 @@ alias dec="pbpaste | keybase decrypt"
 alias penc="pbpaste | keybase pgp encrypt"
 alias pdec="pbpaste | keybase pgp decrypt"
 alias track="keybase track"
+
+alias listKeys="gpg --list-secret-keys --keyid-format LONG"

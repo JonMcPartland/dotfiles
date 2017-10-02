@@ -20,7 +20,7 @@ function _createCARoot() {
   _fancyLine "INFO" "Please provide the Common Name for the Root Authority.";
   read COMMON;
 
-  openssl req \
+  /usr/local/opt/openssl/bin/openssl req \
     -config "${BASEDIR}/openssl.cnf" \
     -extensions v3_ca \
     -subj "/C=GB/ST=England/L=Middlesbrough/O=Big Bite Creative Ltd/CN=${COMMON}" \
@@ -57,7 +57,7 @@ function _createCAIntermediate() {
   read COMMON;
 
   AltName="" \
-    openssl req \
+    /usr/local/opt/openssl/bin/openssl req \
       -config "${BASEDIR}/openssl.cnf" \
       -subj "/C=GB/ST=England/L=Middlesbrough/O=Big Bite Creative Ltd/CN=${COMMON}" \
       -new \
@@ -67,7 +67,7 @@ function _createCAIntermediate() {
   2> /dev/null;
 
   yes | AltName="" \
-    openssl ca \
+    /usr/local/opt/openssl/bin/openssl ca \
       -config "${ROOTDIR}/openssl.cnf" \
       -extensions v3_intermediate_ca \
       -notext \
@@ -81,7 +81,7 @@ function _createCAIntermediate() {
 
   # verify
   # openssl x509 -noout -text -in "${BASEDIR}/certs/intermediate.cert.pem"
-  local VERIFIED=$(openssl verify \
+  local VERIFIED=$(/usr/local/opt/openssl/bin/openssl verify \
     -CAfile ${ROOTDIR}/certs/root.cert.pem \
     ${BASEDIR}/certs/intermediate.cert.pem | awk '{print $2}');
 
@@ -122,7 +122,7 @@ function newCA() {
       cp "${HOME}/.dotfiles/_files/${DIR}.cnf" "${LOC}/openssl.cnf";
     fi
 
-    openssl genrsa -out "${LOC}/private/${DIR}.key.pem" 4096 2> /dev/null;
+    /usr/local/opt/openssl/bin/openssl genrsa -out "${LOC}/private/${DIR}.key.pem" 4096 2> /dev/null;
     chmod 400 "${LOC}/private/${DIR}.key.pem";
 
     _fancyLine "OK" "${DIR^} Authority private key created.";
@@ -162,7 +162,7 @@ function _generateSAN() {
 function _createPrivateKey() {
   local BASEDIR="${HOME}/.ssl/ca/intermediate";
 
-  openssl genrsa -out "${BASEDIR}/private/${1}.key.pem" 4096 2> /dev/null;
+  /usr/local/opt/openssl/bin/openssl genrsa -out "${BASEDIR}/private/${1}.key.pem" 4096 2> /dev/null;
   chmod 400 "${BASEDIR}/private/${1}.key.pem" 2> /dev/null;
 
   _fancyLine "OK" "Private key created.";
@@ -172,7 +172,7 @@ function _createCSRRequest() {
   local BASEDIR="${HOME}/.ssl/ca/intermediate";
 
   AltName="${3}" \
-    openssl req \
+    /usr/local/opt/openssl/bin/openssl req \
       -new -sha256 \
       -config "${BASEDIR}/openssl.cnf" \
       -subj "/C=GB/ST=England/L=Middlesbrough/O=Big Bite Creative Ltd/OU=Jon McPartland/CN=${2}" \
@@ -187,7 +187,7 @@ function _createCertificate() {
   local BASEDIR="${HOME}/.ssl/ca/intermediate";
 
   yes | AltName="${3}" \
-    openssl ca \
+    /usr/local/opt/openssl/bin/openssl ca \
       -config "${BASEDIR}/openssl.cnf" \
       -extensions server_cert \
       -days 375 \
@@ -200,8 +200,8 @@ function _createCertificate() {
   chmod 444 "${BASEDIR}/certs/${1}.cert.pem" 2> /dev/null;
 
   # verify
-  # openssl x509 -noout -text -in "${BASEDIR}/certs/metro-apps-dev.cert.pem"
-  VERIFIED=$(openssl verify \
+  # openssl x509 -noout -text -in "${BASEDIR}/certs/domain-name-tld.cert.pem"
+  VERIFIED=$(/usr/local/opt/openssl/bin/openssl verify \
     -CAfile \
     ${BASEDIR}/certs/ca-chain.cert.pem \
     ${BASEDIR}/certs/${1}.cert.pem | awk '{print $2}');
@@ -221,7 +221,7 @@ function newSSL() {
   local CERTNAME="${1,,}";
   local CERTNAME="${CERTNAME// /-}";
 
-  read SANAMES <<< $(_generateSAN "${@:2}" 2> /dev/null)
+  read SANAMES <<< $(_generateSAN "${1,,}${@:2}" 2> /dev/null)
 
   _createPrivateKey "${CERTNAME}";
   _createCSRRequest "${CERTNAME}" "${1}" "${SANAMES}";
@@ -232,7 +232,7 @@ function newSSL() {
 function _regenerateCRL() {
   local BASEDIR="${HOME}/.ssl/ca/intermediate";
 
-  openssl ca \
+  /usr/local/opt/openssl/bin/openssl ca \
     -gencrl \
     -config "${BASEDIR}/openssl.conf" \
     -out "${BASEDIR}/crl/intermediate.crl.pem" \
@@ -246,7 +246,7 @@ function revokeSSL() {
   CERTNAME="${1,,}";
   CERTNAME="${CERTNAME// /-}";
 
-  openssl ca \
+  /usr/local/opt/openssl/bin/openssl ca \
     -config "${BASEDIR}/openssl.conf" \
     -revoke "${BASEDIR}/certs/${CERTNAME}.cert.pem" \
   2> /dev/null;

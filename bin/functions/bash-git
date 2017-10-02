@@ -4,7 +4,16 @@ isInGit() {
   local GITINFO=()
 
   GITINFO+=($(git rev-parse --is-inside-work-tree 2> /dev/null))
-  GITINFO+=($(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'))
+
+  local BRANCH=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
+  local HASH=$(git show --oneline -s | awk '{print $1}')
+
+  if [ "$BRANCH" ]; then
+    GITINFO+=("$BRANCH")
+  else
+    GITINFO+=("$HASH")
+  fi
+
   GITINFO+=($(git status --porcelain 2> /dev/null | tail -n1))
 
   for I in "${!GITINFO[@]}"; do
