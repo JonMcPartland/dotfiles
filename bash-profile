@@ -8,7 +8,7 @@ unset OPTION
 
 
 # navigation
-CDPATH=".:~/localserver"
+CDPATH=".:~/Code"
 
 
 # History formatting
@@ -16,7 +16,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "      # timestamp
 HISTSIZE=500000                    # num lines
 HISTFILESIZE=100000                # num bytes
 HISTCONTROL="erasedups:ignoreboth" # prevent dupes
-HISTIGNORE="&:[ ]*:cd:ls:history:ga:gdn:gup:gs:clear:" # ignore boring cmds
+HISTIGNORE="&:[ ]*:cd:ls:history:ga:gdn:gup:gs:clear:screen:" # ignore boring cmds
 bind Space:magic-space # expand inline
 
 
@@ -31,7 +31,6 @@ export RBENV_ROOT=/usr/local/var/rbenv
 export PYTHONPATH=/usr/local/bin/python
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
 export NVM_DIR="$HOME/.nvm"
-# export GIT_TEMPLATE_DIR=/Users/Jon/localserver/hooks
 
 
 # sources @todo: fix dirname
