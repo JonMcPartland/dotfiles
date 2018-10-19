@@ -11,7 +11,7 @@ Platform:
 
 Packages:
 - rbenv  
-- [thefuck](https://github.com/nvbn/thefuck)  
+- [thefuck](https://github.com/nvbn/thefuck) - Optional for those who prefer not to use profanities
 - Pygments (`pip install pygments`)  
 - Node Webkit  
 - npm  
