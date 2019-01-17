@@ -1,25 +1,37 @@
 #!/usr/bin/env bash
 
-prettify() {
+function prettify {
   local PRMPT=""
+  local BLACK
+  local RED
+  local GREEN
+  local YELLOW
+  local BLUE
+  local MAGENTA
+  local CYAN
+  local WHITE
+  local BOLD
+  local DIM
+  local RESET
+  local BREAK
 
   # set scheme vars
-  local BLACK=$(tput setaf 0)
-  local RED=$(tput setaf 1)
-  local GREEN=$(tput setaf 2)
-  local YELLOW=$(tput setaf 3)
-  local BLUE=$(tput setaf 4)
-  local MAGENTA=$(tput setaf 5)
-  local CYAN=$(tput setaf 6)
-  local WHITE=$(tput setaf 7)
-  local BOLD=$(tput bold)
-  local DIM=$(tput dim)
-  local RESET=$(tput sgr0)
-  local BREAK="\n"
+  BLACK=$(tput setaf 0)
+  RED=$(tput setaf 1)
+  GREEN=$(tput setaf 2)
+  YELLOW=$(tput setaf 3)
+  BLUE=$(tput setaf 4)
+  MAGENTA=$(tput setaf 5)
+  CYAN=$(tput setaf 6)
+  WHITE=$(tput setaf 7)
+  BOLD=$(tput bold)
+  DIM=$(tput dim)
+  RESET=$(tput sgr0)
+  BREAK="\n"
 
   # timestamp
   PRMPT+="\[$RESET\]"
-  PRMPT+="\[$BOLD$WHITE\][\[$BLACK\]$(date +"%H:%M")\[$BOLD$WHITE\]]"
+  PRMPT+="\[$BOLD$WHITE\][\[$WHITE\]$(date +"%H:%M:%S")\[$BOLD$WHITE\]]"
 
   # user name
   PRMPT+="\[$RESET\]"
@@ -41,8 +53,8 @@ prettify() {
   fi
 
   # git info
-  read ISGIT GITBRANCH GITSTATUS <<< $(isInGit 2> /dev/null)
-  read SVNSTATUS SVNBRANCH SVNREV <<< $(isInSvn 2> /dev/null)
+  read -r ISGIT GITBRANCH GITSTATUS <<< $(isInGit 2> /dev/null)
+  read -r SVNSTATUS SVNBRANCH SVNREV <<< $(isInSvn 2> /dev/null)
   if [[ $ISGIT ]]; then          # if is git repo
     if [[ $GITSTATUS == "" ]]; then # if clean repo
       CLR=$GREEN                 # green status
@@ -65,13 +77,13 @@ prettify() {
     fi
 
     PRMPT+="\[$RESET\]"
-    PRMPT+="\[$WHITE\] on "
+    PRMPT+="\[$BLACK\] on "
 
     PRMPT+="\[$RESET\]"
     PRMPT+="\[$DIM$CLR\]$SVNBRANCH"
 
     PRMPT+="\[$RESET\]"
-    PRMPT+="\[$WHITE\] at "
+    PRMPT+="\[$BLACK\] at "
 
     PRMPT+="\[$RESET\]"
     PRMPT+="\[$DIM$CLR\]$SVNREV"
@@ -89,6 +101,5 @@ prettify() {
   # set PS1
   export PS1=$PRMPT
 }
-
 
 PROMPT_COMMAND=prettify

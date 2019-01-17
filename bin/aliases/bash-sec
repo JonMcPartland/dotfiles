@@ -3,6 +3,7 @@
 # keybase
 alias enc="pbpaste | keybase encrypt"
 alias dec="pbpaste | keybase decrypt"
+alias openssl="/usr/local/opt/openssl/bin/openssl"
 alias penc="pbpaste | keybase pgp encrypt"
 alias pdec="pbpaste | keybase pgp decrypt"
 alias track="keybase track"

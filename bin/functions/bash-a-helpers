@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+function _fancyText {
+  local MSG;
+
+  MSG="==> $(tput bold)$(tput setaf 0)${2}$(tput sgr0)";
+
+  if [[ "${1}" == "OK" ]]; then
+    echo -n "$(tput setaf 2)${MSG}";
+  elif [[ "${1}" == "INFO" ]]; then
+    echo -n "$(tput setaf 4)${MSG}";
+  elif [[ "${1}" == "WARN" ]]; then
+    echo -n "$(tput setaf 3)${MSG}";
+  else
+    echo -n "$(tput setaf 1)${MSG}";
+  fi
+}
+
+function _fancyLine {
+  local MSG;
+
+  MSG="==> $(tput bold)$(tput setaf 0)${2}$(tput sgr0)";
+
+  if [[ "${1}" == "OK" ]]; then
+    echo "$(tput setaf 2)${MSG}";
+  elif [[ "${1}" == "INFO" ]]; then
+    echo "$(tput setaf 4)${MSG}";
+  elif [[ "${1}" == "WARN" ]]; then
+    echo "$(tput setaf 3)${MSG}";
+  else
+    echo "$(tput setaf 1)${MSG}";
+  fi
+}

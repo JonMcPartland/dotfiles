@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
 
-alias lls="ls -AeGl"
+alias lls="ls -AeGhl"
 alias ungz="tar -zxvf"
 alias dogz="tar -zcvf"
 alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
 alias shoot="webkit2png -F -W 1280 -D ~/Desktop"
-alias sync="browser-sync start --proxy "
+alias sync="browser-sync start --proxy"
 
-alias restart="sudo httpd -k restart"
-alias hosts="sudo subl /etc/hosts"
-alias apacheconf="subl /usr/local/apache2/conf"
-alias phpconf="subl /usr/local/etc/php/7.0"
-alias vhost="subl /usr/local/etc/apache2/vhosts"
-alias logs="subl /private/var/log/apache2/"
+alias hosts="code /etc/hosts"
+alias apacheconf="code /usr/local/httpd"
+alias phpconf="code /usr/local/etc/php/7.2"
+alias vhost="code /usr/local/etc/httpd/extra/vhosts"
+alias logs="code /usr/local/var/log/httpd/"
 alias flush="sudo killall -HUP mDNSResponder"
-
+alias wanip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias grind="valgrind --track-origins=yes"
+alias restartPHP='sudo $(phpenv prefix)/etc/init.d/php-fpm restart'
+alias startPHP='sudo $(phpenv prefix)/etc/init.d/php-fpm start'
+alias statusPHP='sudo $(phpenv prefix)/etc/init.d/php-fpm status'
+alias stopPHP='sudo $(phpenv prefix)/etc/init.d/php-fpm stop'

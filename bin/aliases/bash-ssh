@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+alias verifySSH='ssh-keygen -l -f'
+alias pubkey='pbcopy < ~/.ssh/id_rsa.pub'

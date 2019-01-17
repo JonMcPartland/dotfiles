@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-alias nom="npm"
-alias bing="bind"
-alias cear="clear"
-alias ckear="clear"
-alias cler="clear"
-alias clera="clear"
-alias compsoer="composer"
-alias mdkir="mkdir"
+alias bing='bind'
+alias brww='brew'
+alias cear='clear'
+alias ckear='clear'
+alias cler='clear'
+alias clera='clear'
+alias color='colour'
+alias compsoer='composer'
+alias fucking='sudo'
+alias mdkir='mkdir'
+alias nom='npm'
+alias shit='fucking !!'

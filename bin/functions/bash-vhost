@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
-function newVhost() {
+function newVhost {
+  # request sudo credentials
+  sudo -v
+
+  local BASEDIR DB HOST MYSQL WP _pwd;
+
   _fancyLine "OK" "Let's create a new Apache Virtual Host";
 
   # get user input for hostname, directory
-  _fancyLine "INFO" "Desired hostname:";
-  read HOST;
+  _fancyText "INFO" "Desired hostname: ";
+  read -r HOST;
 
-  _fancyLine "INFO" "Root directory:";
-  read BASEDIR;
+  _fancyText "INFO" "Base directory: $(tput sgr0)$HOME/Code/";
+  read -r BASEDIR;
+  mkdir -p "$HOME/Code/$BASEDIR";
 
   newSSL "$HOST" "*.$HOST";
 
@@ -17,18 +23,43 @@ function newVhost() {
       -e "s;%BASEDIR%;$BASEDIR;g"\
       -e "s;%HOME%;$HOME;g"\
     "$HOME/.dotfiles/_files/vhost.conf"\
-    > "$(brew --prefix)/etc/apache2/vhosts/$(echo $HOST | cut -d '.' -f1).conf";
-
-  # elevate for hosts modificatoin && webserver restart
-  _fancyLine "WARN" "Requesting elevated privileges for modifying hosts entries"
-  [ "$UID" -eq 0 ] || exec sudo "$0" "$@"
+    > "$(brew --prefix)/etc/httpd/extra/vhosts/$HOST.conf";
 
   # add hosts entry
-  _fancyLine "WARN" "Updating hosts file"
-  echo "127.0.0.1       $HOST" | sudo tee -a /etc/hosts;
-  echo "::1             $HOST" | sudo tee -a /etc/hosts;
+  _fancyLine "WARN" "Updating hosts file";
+  echo "127.0.0.1  $HOST" | sudo tee -a /etc/hosts &> /dev/null;
+  echo "::1        $HOST" | sudo tee -a /etc/hosts &> /dev/null;
 
   # restart webserver
-  _fancyLine "WARN" "Restarting Homebrew Apache"
-  sudo brew services restart httpd24 2>&1 /dev/null;
+  _fancyLine "WARN" "Restarting Homebrew Apache";
+  sudo brew services restart httpd24 &> /dev/null;
+
+  # create mysql database
+  _fancyText "INFO" "Please enter MySQL root user password: ";
+  stty -echo;
+  read -r MYSQL;
+  stty echo;
+  echo "";
+
+  DB=$(echo "$HOST" | awk -F. '{print $1}' | sed -e 's;-;_;g');
+  mysql -uroot -p"$MYSQL" -e "create database if not exists $DB;" &> /dev/null;
+
+  _fancyText "OK" "Configure WordPress [y|N]? ";
+  read -r WP;
+  if [[ "y" -eq "$WP" ]]; then
+    _pwd="$PWD";
+    cd "$HOME/Code/$BASEDIR" || return;
+    wp core download --skip-content --quiet &> /dev/null;
+    wp config create \
+      --dbname="$DB" \
+      --dbuser="root" \
+      --dbpass="$MYSQL" \
+      --dbhost="127.0.0.1" \
+      --dbcharset="utf8mb4" \
+      --dbcollate="utf8mb4_unicode_ci" \
+      --quiet &> /dev/null;
+    cd "$_pwd" || return;
+  fi
+
+  _fancyLine "OK" "All Done!";
 }

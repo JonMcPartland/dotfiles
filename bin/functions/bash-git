@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 
-isInGit() {
-  local GITINFO=()
+function isInGit {
+  local GITINFO=();
+  local BRANCH;
+  local HASH;
 
-  GITINFO+=($(git rev-parse --is-inside-work-tree 2> /dev/null))
+  GITINFO+=("$(git rev-parse --is-inside-work-tree 2> /dev/null)")
 
-  local BRANCH=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
-  local HASH=$(git show --oneline -s | awk '{print $1}')
+  BRANCH=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
+  HASH=$(git show --oneline -s | awk '{print $1}')
 
-  if [ "$BRANCH" ]; then
+  if [ -n "$BRANCH" ]; then
     GITINFO+=("$BRANCH")
   else
     GITINFO+=("$HASH")
   fi
 
-  GITINFO+=($(git status --porcelain 2> /dev/null | tail -n1))
+  GITINFO+=("$(git status --porcelain 2> /dev/null | tail -n1)")
 
   for I in "${!GITINFO[@]}"; do
     if [[ "${GITINFO[$I]}" == *"Not a git repository"* ]]; then
@@ -23,4 +25,40 @@ isInGit() {
   done
 
   printf '%s ' "${GITINFO[@]}"
+}
+
+function reportChangesBetween {
+  echo ""
+  git log --pretty=format:"- %<(80,trunc)%s" --date=relative "${1}".."${2}" | grep -vi merge
+  echo ""
+}
+
+function delete {
+  git branch -D "$1" && git push origin :"$1"
+}
+
+function gitclean {
+  local branches;
+
+  if [ -n "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
+    git fetch -p;
+
+    branches=$(git branch -vv | grep ': gone]' | awk '{print $1}');
+
+    for branch in $branches; do
+      git branch -D "$branch";
+    done
+  fi
+}
+
+function gitupdate {
+  current=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
+  branches=$(git branch -vvv | grep '\[origin\/' | sed 's/\* //' | awk '{print $1}')
+
+  for branch in $branches; do
+    git checkout "$branch"
+    git pull
+  done
+
+  git checkout "$current"
 }

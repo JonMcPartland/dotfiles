@@ -17,25 +17,27 @@ HISTSIZE=500000                    # num lines
 HISTFILESIZE=100000                # num bytes
 HISTCONTROL="erasedups:ignoreboth" # prevent dupes
 HISTIGNORE="&:[ ]*:cd:ls:history:ga:gdn:gup:gs:clear:screen:" # ignore boring cmds
-bind Space:magic-space # expand inline
 
 
 # autocompletion
+bind Space:magic-space # expand inline
 bind "set completion-ignore-case on"
 bind "set completion-map-case on"
 bind "set show-all-if-ambiguous on"
 
 
 # binary paths
+export PHPENV_ROOT="$HOME/.phpenv"
 export RBENV_ROOT=/usr/local/var/rbenv
 export PYTHONPATH=/usr/local/bin/python
 export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+export GIT_TEMPLATE_DIR=/Users/Jon/Code/Tools/hooks
 export NVM_DIR="$HOME/.nvm"
 
 
 # sources @todo: fix dirname
 for FILE in ~/.dotfiles/{bin/*,bin}/bash-*; do
-  test -f $FILE && . $FILE
+  test -f "$FILE" && . "$FILE"
 done
 
 
@@ -44,5 +46,5 @@ type _tidyUpPath &> /dev/null && _tidyUpPath
 
 
 # here be dragons
-type rbenv   &> /dev/null && eval "$(rbenv init -)"
-type thefuck &> /dev/null && eval "$(thefuck --alias)"
+type rbenv &> /dev/null && eval "$(rbenv init -)"
+nvm use 8 &> /dev/null

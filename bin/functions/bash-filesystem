@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
 
 # Go up n dirs
-up() {
+function up {
   STRING=""
   COUNT=0
   while [[ $COUNT -lt $1 ]]; do
-    STRING=$STRING"../"
+    STRING="${STRING}../"
     let COUNT=COUNT+1
   done
-  cd $STRING
+  cd "$STRING" || return;
 }
 
 # toggle hidden file visibility
-showDots() {
+function showDots {
   if [[ $(defaults read com.apple.finder AppleShowAllFiles) == YES ]]; then
     defaults write com.apple.finder AppleShowAllFiles NO
+    echo "Hiding dotfiles."
   else
     defaults write com.apple.finder AppleShowAllFiles YES
+    echo "Showing dotfiles."
   fi
 }

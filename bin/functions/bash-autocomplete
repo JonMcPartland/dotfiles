@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
 # autocomplete ssh from known_hosts
-_sshAutocomplete() {
-  local LINES=(
-    $(awk '{print $1}' $HOME/.ssh/known_hosts),
-    $(cat $HOME/.ssh/config | grep "^Host " | awk '{print $2}' | sed -e 's/\[\(^]*\)\]/{\1}/g')
-  )
-  local HOSTS=()
-  local SPLIT=()
+function _sshAutocomplete {
+  local LINES=();
+  local HOSTS=();
+  local SPLIT=();
 
-  for LINE in ${LINES[@]}; do
-    SPLIT=($(echo $LINE | tr ',' ' '))
+  LINES+=("$(awk '{print $1}' "$HOME/.ssh/known_hosts")")
+  LINES+=("$(cat "$HOME/.ssh/config" | grep "^Host " | awk '{print $2}' | sed -e 's/\[\(^]*\)\]/{\1}/g')")
 
-    for L in ${SPLIT[@]}; do
+  for LINE in "${LINES[@]}"; do
+    SPLIT=("$(echo "$LINE" | tr ',' ' ')")
+
+    for L in "${SPLIT[@]}"; do
       HOSTS+=("$L")
     done
   done
@@ -22,4 +22,4 @@ _sshAutocomplete() {
   unset LINES HOSTS SPLIT
 }
 
-test -f $HOME/.ssh/known_hosts && _sshAutocomplete
+test -f "$HOME/.ssh/known_hosts" && _sshAutocomplete

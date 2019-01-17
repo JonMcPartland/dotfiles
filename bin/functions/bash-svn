@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-isInSvn() {
+function isInSvn {
   local SVNINFO=()
-  SVNINFO+=($(svn status | grep '^M' | wc -l | tr -d '[[:space:]]'))
-  SVNINFO+=($(svn info | grep '^URL:' | egrep -o '(tags|branches)/[^/]+|trunk' | egrep -o '[^/]+$'))
-  SVNINFO+=($(svn info | grep 'Revision: ' | awk '{print $2}'))
+  SVNINFO+=("$(svn status | grep -c '^M' | tr -d ' ')")
+  SVNINFO+=("$(svn info | grep '^URL:' | grep -Eo '(tags|branches)/[^/]+|trunk' | grep -Eo '[^/]+$')")
+  SVNINFO+=("$(svn info | grep 'Revision: ' | awk '{print $2}')")
 
   for I in "${!SVNINFO[@]}"; do
     if [[ "${SVNINFO[$I]}" == *"not a working copy"* ]]; then

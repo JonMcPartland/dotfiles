@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-_tidyUpPath() {
-  OLD="$PATH"
+function _tidyUpPath {
   PATH=""
+  PATH="$PATH:/usr/local/opt/gettext/bin"
+  PATH="$PATH:/usr/local/opt/php@7.2/bin"
+  PATH="$PATH:/usr/local/opt/php@7.2/sbin"
+  PATH="$PATH:$HOME/.phpenv/bin"
+  PATH="$PATH:$HOME/.phpenv/shims"
   PATH="$PATH:$HOME/.rbenv/bin"
   PATH="$PATH:$HOME/.rbenv/shims"
   PATH="$PATH:$HOME/.composer/vendor/bin"
@@ -12,6 +16,7 @@ _tidyUpPath() {
   PATH="$PATH:/usr/local/bin"
   PATH="$PATH:/usr/local/git/bin"
   PATH="$PATH:/usr/local/mysql/bin"
+  PATH="$PATH:/usr/local/share/dotnet"
   PATH="$PATH:/opt/X11/bin"
 
   PATH="$PATH:/usr/bin"
@@ -41,6 +46,7 @@ _tidyUpPath() {
     unset OLD_PATH X
   fi
 
+  # PATH=$(echo "${PATH//^:/}")
   PATH=$(echo "$PATH" | sed 's/^://')
 
   export PATH="$PATH"

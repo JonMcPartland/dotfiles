@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-function regen() {
+function regen {
   _fancyLine 'OK' 'Enter media to regenerate'
-  read images
+  read -r images
   _fancyLine 'OK' 'Enter site url, if required'
-  read url
+  read -r url
   _fancyLine 'OK' 'Enter site path, if required'
-  read path
+  read -r path
 
-  if [ $url ]; then
-    url="url=$url"
+  if [ "$url" ]; then
+    url="--url=$url"
   else
     url=''
   fi
 
-  if [ $path ]; then
-    path="path='$path'"
+  if [ "$path" ]; then
+    path="--path='$path'"
   else
     path=''
   fi

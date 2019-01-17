@@ -1,19 +1,30 @@
 #!/usr/bin/env bash
 
 # generate random string of n length
-randString() {
-  STR=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:]' | head -c ${1:-32})
+alias randText="randString"
+function randString {
+  STR=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:]' | head -c "${1:-32}")
   echo "$STR"
 }
 
-# generate random string of n length inc special chars
-randChars() {
-  STR=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:][:punct:][:graph:][:print:]' | head -c ${1:-32})
+# generate random string of n length inc. special chars
+function randChars {
+  STR=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '[:alnum:][:punct:][:graph:][:print:]' | head -c "${1:-32}")
   echo "$STR"
 }
 
 # generate a random integer of n length
-randNum() {
-  NUM=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '0-9' | head -c ${1:-32})
+function randNum {
+  NUM=$(head -c 4096 /dev/urandom | env LC_CTYPE=C tr -dc '0-9' | head -c "${1:-32}")
   echo "$NUM"
+}
+
+# empty a directory
+function empty {
+  mkdir -p /tmp/empty
+  rsync -a –delete /tmp/empty/ "$1"
+}
+
+function gif {
+  convert -delay 20 -loop 0 "$0" "$1.gif"
 }

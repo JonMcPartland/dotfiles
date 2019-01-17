@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-keygen() {
-  EMAIL="$1"
-  NAME="$2"
-
-  ssh-keygen -q -t rsa -b 4096 -C $EMAIL -f ~/.ssh/id_rsa_$NAME;
-  chmod 0600 ~/.ssh/id_rsa_$NAME.pub;
-  chmod 0600 ~/.ssh/id_rsa_$NAME;
-  ssh-add ~/.ssh/id_rsa_$NAME.pub;
+# generate an ssh key.
+# Usage: keygen jon@mcpart.land foo
+# Outputs keypair to ~/.ssh/id_rsa_foo[.pub]
+function keygen {
+  ssh-keygen -q -t rsa -b 4096 -C "$1" -f "$HOME/.ssh/id_rsa_$2";
+  chmod 0600 "$HOME/.ssh/id_rsa_$2.pub";
+  chmod 0600 "$HOME/.ssh/id_rsa_$2";
+  ssh-add "$HOME/.ssh/id_rsa_$2.pub";
 }
-
