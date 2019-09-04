@@ -25,6 +25,7 @@ function empty {
   rsync -a –delete /tmp/empty/ "$1"
 }
 
+# convert a video to a gif
 function gif {
   convert -delay 20 -loop 0 "$0" "$1.gif"
 }

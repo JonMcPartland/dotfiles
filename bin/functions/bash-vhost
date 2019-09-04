@@ -46,7 +46,7 @@ function newVhost {
 
   _fancyText "OK" "Configure WordPress [y|N]? ";
   read -r WP;
-  if [[ "y" -eq "$WP" ]]; then
+  if [[ "y" == "$WP" ]]; then
     _pwd="$PWD";
     cd "$HOME/Code/$BASEDIR" || return;
     wp core download --skip-content --quiet &> /dev/null;

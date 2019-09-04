@@ -10,8 +10,6 @@ FILES+=("$(brew --prefix)/Library/Contributions/brew_bash_completion.sh")
 FILES+=("$(brew --prefix)/share/bash-completion/wp-completion.bash")
 # iTerm 2 Integration
 FILES+=("$HOME/.iterm2_shell_integration.bash")
-# PHP Version Manager
-FILES+=("$HOME/.phpenv/completions/phpenv.bash")
 # Node Version Manager
 FILES+=("$(brew --prefix)/etc/bash_completion.d/nvm")
 FILES+=("$HOME/.nvm/nvm.sh")
@@ -19,6 +17,7 @@ FILES+=("$HOME/.nvm/bash_completion")
 
 
 for FILE in "${FILES[@]}"; do
+  # shellcheck source=/dev/null
   test -f "$FILE" && . "$FILE"
 done
 

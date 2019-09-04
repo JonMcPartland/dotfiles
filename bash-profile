@@ -30,13 +30,16 @@ bind "set show-all-if-ambiguous on"
 export PHPENV_ROOT="$HOME/.phpenv"
 export RBENV_ROOT=/usr/local/var/rbenv
 export PYTHONPATH=/usr/local/bin/python
-export NODE_PATH=/usr/local/lib/node_modules:$NODE_PATH
+export NODE_PATH="/usr/local/lib/node_modules:$NODE_PATH"
 export GIT_TEMPLATE_DIR=/Users/Jon/Code/Tools/hooks
 export NVM_DIR="$HOME/.nvm"
+export SDKROOT=macosx10.14
+export ANDROID_HOME="$HOME/Library/Android/sdk"
 
 
 # sources @todo: fix dirname
 for FILE in ~/.dotfiles/{bin/*,bin}/bash-*; do
+  # shellcheck source=/dev/null
   test -f "$FILE" && . "$FILE"
 done
 
@@ -47,4 +50,3 @@ type _tidyUpPath &> /dev/null && _tidyUpPath
 
 # here be dragons
 type rbenv &> /dev/null && eval "$(rbenv init -)"
-nvm use 8 &> /dev/null

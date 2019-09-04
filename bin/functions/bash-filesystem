@@ -6,7 +6,7 @@ function up {
   COUNT=0
   while [[ $COUNT -lt $1 ]]; do
     STRING="${STRING}../"
-    let COUNT=COUNT+1
+    (( COUNT++ ))
   done
   cd "$STRING" || return;
 }

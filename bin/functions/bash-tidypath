@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
 function _tidyUpPath {
+  # shellcheck disable=SC2123
   PATH=""
   PATH="$PATH:/usr/local/opt/gettext/bin"
   PATH="$PATH:/usr/local/opt/php@7.2/bin"
   PATH="$PATH:/usr/local/opt/php@7.2/sbin"
-  PATH="$PATH:$HOME/.phpenv/bin"
-  PATH="$PATH:$HOME/.phpenv/shims"
   PATH="$PATH:$HOME/.rbenv/bin"
   PATH="$PATH:$HOME/.rbenv/shims"
   PATH="$PATH:$HOME/.composer/vendor/bin"
@@ -16,6 +15,10 @@ function _tidyUpPath {
   PATH="$PATH:/usr/local/bin"
   PATH="$PATH:/usr/local/git/bin"
   PATH="$PATH:/usr/local/mysql/bin"
+  PATH="$PATH:$HOME/Library/Android/sdk/emulator"
+  PATH="$PATH:$HOME/Library/Android/sdk/tools"
+  PATH="$PATH:$HOME/Library/Android/sdk/tools/bin"
+  PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
   PATH="$PATH:/usr/local/share/dotnet"
   PATH="$PATH:/opt/X11/bin"
 
@@ -28,7 +31,9 @@ function _tidyUpPath {
 
   # remove path dupes
   if [[ $PATH ]]; then
-    OLD_PATH=$PATH:; PATH=
+    OLD_PATH=$PATH:;
+    # shellcheck disable=SC2123
+    PATH=;
 
     while [[ $OLD_PATH ]]; do
       X=${OLD_PATH%%:*}    # the first remaining entry
@@ -46,7 +51,7 @@ function _tidyUpPath {
     unset OLD_PATH X
   fi
 
-  # PATH=$(echo "${PATH//^:/}")
+  # shellcheck disable=SC2001
   PATH=$(echo "$PATH" | sed 's/^://')
 
   export PATH="$PATH"

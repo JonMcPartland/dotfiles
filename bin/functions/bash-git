@@ -51,14 +51,44 @@ function gitclean {
   fi
 }
 
-function gitupdate {
-  current=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')
-  branches=$(git branch -vvv | grep '\[origin\/' | sed 's/\* //' | awk '{print $1}')
+function gsync {
+  local remote="${1:-origin}"
 
-  for branch in $branches; do
-    git checkout "$branch"
-    git pull
-  done
+  if [ -n "$(git rev-parse --is-inside-work-tree 2> /dev/null)" ]; then
+    current=$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///');
 
-  git checkout "$current"
+    _fancyLine "INFO" "Fetching."
+    git fetch "$remote" -p > /dev/null 2>&1;
+
+    refs=$(git for-each-ref refs/remotes/"$remote" --format='%(refname:short)' | sed "s/^$remote\///g" | grep -vi 'HEAD');
+
+    _fancyLine "INFO" "Syncing."
+    for ref in $refs; do
+      git checkout "$ref" > /dev/null 2>&1;
+      git pull "$remote" > /dev/null 2>&1;
+    done;
+
+    git checkout "$current" > /dev/null 2>&1;
+
+    _fancyLine "INFO" "Cleaning up."
+    gitclean
+  fi
+}
+
+function switchToApache {
+  sudo -v;
+
+  sudo brew services stop varnish;
+  sudo brew services stop nginx;
+  sudo brew services stop memcached;
+  sudo brew services start httpd;
+}
+
+function switchToNginx {
+  sudo -v;
+
+  sudo brew services stop httpd;
+  sudo brew services start varnish;
+  sudo brew services start nginx;
+  sudo brew services start memcached;
 }

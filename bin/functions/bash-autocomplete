@@ -7,7 +7,7 @@ function _sshAutocomplete {
   local SPLIT=();
 
   LINES+=("$(awk '{print $1}' "$HOME/.ssh/known_hosts")")
-  LINES+=("$(cat "$HOME/.ssh/config" | grep "^Host " | awk '{print $2}' | sed -e 's/\[\(^]*\)\]/{\1}/g')")
+  LINES+=("$(grep "^Host " "$HOME/.ssh/config" | awk '{print $2}' | sed -e 's/\[\(^]*\)\]/{\1}/g')")
 
   for LINE in "${LINES[@]}"; do
     SPLIT=("$(echo "$LINE" | tr ',' ' ')")
