@@ -26,16 +26,23 @@ bind "set completion-map-case on"
 bind "set show-all-if-ambiguous on"
 
 
-# binary paths
+# paths
 export PHPENV_ROOT="$HOME/.phpenv"
 export RBENV_ROOT=/usr/local/var/rbenv
 export PYTHONPATH=/usr/local/bin/python
 export NODE_PATH="/usr/local/lib/node_modules:$NODE_PATH"
 export GIT_TEMPLATE_DIR=/Users/Jon/Code/Tools/hooks
 export NVM_DIR="$HOME/.nvm"
-export SDKROOT=macosx10.14
+export HOMEBREW_EDITOR="code"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
+export WP_TESTS_DIR="$HOME/Code/wptest/wordpress-tests-lib"
+export WP_CORE_DIR="$HOME/Code/wptest/wordpress"
 
+# compiler flags
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+#pkg-config flags
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
 # sources @todo: fix dirname
 for FILE in ~/.dotfiles/{bin/*,bin}/bash-*; do

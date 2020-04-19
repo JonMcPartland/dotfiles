@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+function gpu {
+  git push --set-upstream origin "$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')";
+}
+
+function gpuv {
+  git push --set-upstream vip "$(git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///')";
+}
+
 function isInGit {
   local GITINFO=();
   local BRANCH;
@@ -73,22 +81,4 @@ function gsync {
     _fancyLine "INFO" "Cleaning up."
     gitclean
   fi
-}
-
-function switchToApache {
-  sudo -v;
-
-  sudo brew services stop varnish;
-  sudo brew services stop nginx;
-  sudo brew services stop memcached;
-  sudo brew services start httpd;
-}
-
-function switchToNginx {
-  sudo -v;
-
-  sudo brew services stop httpd;
-  sudo brew services start varnish;
-  sudo brew services start nginx;
-  sudo brew services start memcached;
 }

@@ -1,10 +1,28 @@
 #!/usr/bin/env bash
 
+function switchToApache {
+  sudo -v;
+
+  sudo brew services stop varnish > /dev/null 2>&1;
+  sudo brew services stop nginx > /dev/null 2>&1;
+  sudo brew services stop memcached > /dev/null 2>&1;
+  sudo brew services start httpd > /dev/null 2>&1;
+}
+
+function switchToNginx {
+  sudo -v;
+
+  sudo brew services stop httpd > /dev/null 2>&1;
+  sudo brew services restart varnish > /dev/null 2>&1;
+  sudo brew services restart nginx > /dev/null 2>&1;
+  sudo brew services restart memcached > /dev/null 2>&1;
+}
+
 function newVhost {
   # request sudo credentials
   sudo -v
 
-  local BASEDIR DB HOST MYSQL WP _pwd;
+  local BASEDIR DB HOST ALTNAME MYSQL WP _pwd;
 
   _fancyLine "OK" "Let's create a new Apache Virtual Host";
 
@@ -12,16 +30,24 @@ function newVhost {
   _fancyText "INFO" "Desired hostname: ";
   read -r HOST;
 
+  _fancyText "OK" "Configure SAN [y|N]? ";
+  read -r SAN;
+  if [[ "y" == "$SAN" ]]; then
+    _fancyText "INFO" "Enter full SAN string";
+    read -r ALTNAME;
+  fi
+
   _fancyText "INFO" "Base directory: $(tput sgr0)$HOME/Code/";
   read -r BASEDIR;
   mkdir -p "$HOME/Code/$BASEDIR";
 
-  newSSL "$HOST" "*.$HOST";
+  newSSL "$HOST" "*.$HOST" "$ALTNAME";
 
   # add apache entry
   sed -e "s;%HOST%;$HOST;g"\
       -e "s;%BASEDIR%;$BASEDIR;g"\
       -e "s;%HOME%;$HOME;g"\
+      -e "s;%ALTNAME%;${ALTNAME:-''};g"\
     "$HOME/.dotfiles/_files/vhost.conf"\
     > "$(brew --prefix)/etc/httpd/extra/vhosts/$HOST.conf";
 

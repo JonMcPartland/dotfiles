@@ -5,8 +5,6 @@ function regen {
   read -r images
   _fancyLine 'OK' 'Enter site url, if required'
   read -r url
-  _fancyLine 'OK' 'Enter site path, if required'
-  read -r path
 
   if [ "$url" ]; then
     url="--url=$url"
@@ -14,11 +12,5 @@ function regen {
     url=''
   fi
 
-  if [ "$path" ]; then
-    path="--path='$path'"
-  else
-    path=''
-  fi
-
-  wp media regenerate --skip-delete --yes "$images" "$url" "$path"
+  wp media regenerate --skip-delete --yes "$images" "$url"
 }
